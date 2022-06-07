@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const userModel = require("./userModel");
 const mongoose = require("mongoose");
+const signToken = require("../auth/authMethods").signToken;
 
 const saltRounds = 10;
 
@@ -30,27 +31,20 @@ const signUp = (req, res, next) => {
 
 const signIn = async (req, res, next) => {
   console.log(req.body.email);
+
+  //first find the user in the database
   const userDoc = await userModel.findOne({ email: req.body.email }).exec();
-  console.log(userDoc);
-  console.log(req.body.password);
 
-  const userEmail = userDoc.get("email");
-  const passwordHashed = userDoc.get("password");
-
-  /*   bcrypt.compare(req.body.password, passwordHashed).then((result) => {
-    if (result) {
-      res.status(200).send("password was correct!");
-    } else {
-      res.status(401).send("email or password incorrect");
-    }
-  }); */
-
+  //check if the password is valid
   const ispasswordMatch = await userDoc.validatePassword(req.body.password);
-  if (ispasswordMatch) {
-    res.status(200).send("password was correct!");
-  } else {
-    res.status(401).send("email or password incorrect");
-  }
+
+  //sign the token and send it to the user.
+  const token = signToken({ _id: userDoc._id });
+  res.status(200).send(token);
+};
+
+exports.protectedRoute = (req, res, next) => {
+  console.log("confidential data");
 };
 
 exports.signUp = signUp;
