@@ -19,7 +19,6 @@ const signUp = (req, res, next) => {
     .then((hashedPassword) => {
       const user = new userModel({ name, email, password: hashedPassword });
       return user.save();
-      //change the code here above
     })
     .then((savedDoc) => {
       res.status(201).send("User created!");
@@ -35,8 +34,13 @@ const signIn = async (req, res, next) => {
   //first find the user in the database
   const userDoc = await userModel.findOne({ email: req.body.email }).exec();
 
+  //if no user found, respond
+  if (!userDoc) {
+    res.status(500).json("Sorry, no user with this email found");
+  }
+
   //check if the password is valid
-  const ispasswordMatch = await userDoc.validatePassword(req.body.password);
+  await userDoc.validatePassword(req.body.password);
 
   //sign the token and send it to the user.
   const token = signToken({ _id: userDoc._id });
