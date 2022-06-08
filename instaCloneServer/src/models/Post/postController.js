@@ -25,3 +25,17 @@ exports.getAllPosts = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getPostsSignedInUser = async (req, res, next) => {
+  console.log(req.user);
+  try {
+    const posts = await postModel.find({ postedBy: req.user._id });
+
+    /*  console.log(posts[0].postedBy._id.equals(req.user._id)); */
+    console.log(posts);
+
+    res.status(200).json(posts);
+  } catch (err) {
+    next(err);
+  }
+};
