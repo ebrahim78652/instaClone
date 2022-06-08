@@ -5,5 +5,6 @@ const apiRouter = express.Router();
 //pass it as the second argument to the use() method.
 //https://expressjs.com/de/api.html#app.use
 apiRouter.use("/user", require("../models/User/userRoutes"));
+apiRouter.use("/posts", require("../models/Post/postRoutes"));
 
 module.exports = apiRouter;

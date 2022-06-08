@@ -1,8 +1,5 @@
-const express = require("express");
-const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const userModel = require("./userModel");
-const mongoose = require("mongoose");
 const signToken = require("../auth/authMethods").signToken;
 
 const saltRounds = 10;
