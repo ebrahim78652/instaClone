@@ -46,12 +46,12 @@ a:-webkit-any-link{
 }
 
 /*||login card  */
-.card{
+.card_my_own{
   display: flex;
   width:40vw;
   height: 40vh;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 10rem auto;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
@@ -60,7 +60,7 @@ h3{
   font-weight: 100;
 }
 
-.card input{
+.card_my_own input{
   width: 80%;
   margin: 1rem;
   height: 3rem;
@@ -132,3 +132,13 @@ h3{
 .picture_grid .grid_item img{
   width: 100%;
 }
+
+
+/*HOME  */
+.card{
+  width: 30vw;
+  margin: 5rem auto;
+  padding: 1rem;
+  font-size: 2rem;
+}
+

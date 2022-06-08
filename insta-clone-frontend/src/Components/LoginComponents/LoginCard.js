@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function LoginCard() {
   return (
     <>
-      <div className="card">
+      <div className="card_my_own">
         <div className="cardTitle">Instagram</div>
         <InputField type="email" placeholder="email" />
         <InputField type="password" placeholder="password" />
