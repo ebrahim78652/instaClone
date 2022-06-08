@@ -1,5 +1,9 @@
 import React from "react";
-
+import LoginCard from "../LoginComponents/LoginCard";
 export default function Login() {
-  return <h1>Login</h1>;
+  return (
+    <>
+      <LoginCard />
+    </>
+  );
 }

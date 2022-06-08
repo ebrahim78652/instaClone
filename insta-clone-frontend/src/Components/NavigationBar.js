@@ -1,19 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { NavLink } from "react-router-dom";
 export default function NavigationBar() {
+
+    let activeStyle = {
+        textDecoration: "underline",
+      };
+
+
   return (
     <div className="nav-bar">
-      <div className="logo">Logo</div>
+      <div className="logo">Instagram</div>
       <ul>
         <li>
-          <Link to="/login">Login</Link>{" "}
+          <NavLink  style={({ isActive }) =>
+              isActive ? activeStyle : undefined
+            } to="/login">Login</NavLink>{" "}
         </li>
         <li>
-          <Link to="signup">Sign up</Link>
+          <NavLink  style={({ isActive }) =>
+              isActive ? activeStyle : undefined
+            } to="signup">Sign up</NavLink>
         </li>
         <li>
-          <Link to="profile">Profile</Link>{" "}
+          <NavLink  style={({ isActive }) =>
+              isActive ? activeStyle : undefined
+            } to="profile">Profile</NavLink>{" "}
         </li>
       </ul>
     </div>
