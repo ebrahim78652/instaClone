@@ -54,6 +54,7 @@ a:-webkit-any-link{
   margin: 0 auto;
   justify-content: center;
   align-items: center;
+  font-size: 2rem;
 }
 h3{
   font-weight: 100;
@@ -65,6 +66,7 @@ h3{
   height: 3rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.514);
   outline: none;
+  font-size: 1.5rem;
 }
 .submit{
   background-color: rgba(48, 155, 243, 0.863);
@@ -76,3 +78,57 @@ h3{
   cursor: pointer;
 }
 
+/*||Profile  */
+
+.profile_image, .grid_item{
+  width: 15vw;
+  margin-top: 3rem;
+}
+
+.profile_image img{
+  border-radius:50% ;
+  width: 100%;
+}
+.main_description{
+  gap: clamp(7rem,  20vw, 12rem);
+}
+
+.main_description, .user_stats, .user_description{
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.user_stats{
+  display: flex;
+  font-size: 2rem;
+  gap: 2rem
+}
+
+.user_description{
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.user_description .name{
+  font-size: 4.5rem;
+}
+
+.divider{
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.685);
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.picture_grid{
+  width: 80vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
+  justify-items: center;
+}
+
+.picture_grid .grid_item img{
+  width: 100%;
+}

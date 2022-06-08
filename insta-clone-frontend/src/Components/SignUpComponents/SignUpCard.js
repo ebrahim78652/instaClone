@@ -1,6 +1,8 @@
 import React from "react";
 import InputField from "../LoginComponents/InputField";
 import Submit from "../LoginComponents/Submit";
+import { Link } from "react-router-dom";
+
 export default function SignUpCard() {
   return (
     <>
@@ -11,6 +13,7 @@ export default function SignUpCard() {
         <InputField type="password" placeholder="password" />
 
         <Submit nameOfButton="Sign Up" />
+        <Link to="/login">Already have an account?</Link>
       </div>
     </>
   );
