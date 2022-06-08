@@ -1,7 +1,5 @@
 const express = require("express");
 const userRouter = express.Router();
-const bcrypt = require("bcrypt");
-const userModel = require("./userModel");
 const { signUp, signIn, protectedRoute } = require("./userController");
 const { verifyToken } = require("../auth/authMethods");
 

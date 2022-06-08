@@ -12,3 +12,16 @@ exports.createPost = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getAllPosts = async (req, res, next) => {
+  try {
+    const posts = await postModel.find({}).populate({
+      path: "postedBy",
+      select: "-password -_id -__v",
+    });
+
+    res.status(200).json(posts);
+  } catch (err) {
+    next(err);
+  }
+};
