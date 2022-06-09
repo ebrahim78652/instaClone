@@ -1,13 +1,16 @@
-import React, { useState, uesEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import InputField from "../../shared/InputField";
 import Submit from "../../shared/Submit";
 import { Link } from "react-router-dom";
+import M from "materialize-css";
 
 export default function SignUpCard() {
   //make the inputs controlled elements
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -21,6 +24,10 @@ export default function SignUpCard() {
 
   const onSubmitButtonPressed = async () => {
     console.log("submit button pressed!");
+
+    //add validation for password and email in the end,
+    //because might need to make lots of users for testing
+
     //now do the fetch to the server here.
     //change the link to use the proxy
     const response = await fetch(
@@ -35,10 +42,17 @@ export default function SignUpCard() {
       }
     )
       .then((resp) => resp.json())
-      .then((respBody) => respBody);
+      .then((respBody) => respBody)
+      .catch((err) => console.log(err));
 
-    console.log(response);
+    if (response.error) {
+      M.toast({ html: response.error, classes: "red lighten-2" });
+    } else {
+      M.toast({ html: response, classes: "green lighten-2" });
+      navigate("/login");
+    }
   };
+
   return (
     <>
       <div className="card_my_own">

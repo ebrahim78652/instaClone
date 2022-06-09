@@ -9,7 +9,7 @@ const signUp = (req, res, next) => {
   console.log(req.body);
   const { name, password, email } = req.body;
   if (!(name && password && email)) {
-    res.status(422).json("Please enter all the fields!");
+    res.status(422).json({ error: "Please enter all fields" });
   }
   //now hash the  password
   bcrypt
