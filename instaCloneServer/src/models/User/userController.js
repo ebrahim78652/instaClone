@@ -34,7 +34,7 @@ const signIn = async (req, res, next) => {
 
   //if no user found, respond
   if (!userDoc) {
-    res.status(500).json("Sorry, no user with this email found");
+    res.status(500).json({ error: "Sorry, no user with this email found" });
   }
 
   //check if the password is valid
@@ -42,7 +42,9 @@ const signIn = async (req, res, next) => {
 
   //sign the token and send it to the user.
   const token = signToken({ _id: userDoc._id });
-  res.status(200).send(token);
+  res
+    .status(200)
+    .send({ token, user: { name: userDoc._id }, message: "user signed in" });
 };
 
 exports.protectedRoute = (req, res, next) => {

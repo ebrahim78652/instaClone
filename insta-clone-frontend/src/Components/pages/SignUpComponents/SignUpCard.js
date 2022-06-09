@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../shared/InputField";
 import Submit from "../../shared/Submit";
@@ -30,17 +30,13 @@ export default function SignUpCard() {
 
     //now do the fetch to the server here.
     //change the link to use the proxy
-    const response = await fetch(
-      "http://localhost:8000/api/user/auth/new-User",
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, password, email }),
-      }
-    )
+    const response = await fetch("/user/auth/new-User", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, password, email }),
+    })
       .then((resp) => resp.json())
       .then((respBody) => respBody)
       .catch((err) => console.log(err));
