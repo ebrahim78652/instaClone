@@ -6,6 +6,7 @@ const saltRounds = 10;
 
 const signUp = (req, res, next) => {
   //extract the data form the res body/ header
+  console.log(req.body);
   const { name, password, email } = req.body;
   if (!(name && password && email)) {
     res.status(422).json("Please enter all the fields!");
@@ -18,7 +19,7 @@ const signUp = (req, res, next) => {
       return user.save();
     })
     .then((savedDoc) => {
-      res.status(201).send("User created!");
+      res.status(201).json("User created!");
     })
     .catch((err) => {
       next(err);

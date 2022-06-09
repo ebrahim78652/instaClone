@@ -1,9 +1,11 @@
 import React from "react";
 
-export default function Submit({ nameOfButton }) {
+export default function Submit({ nameOfButton, onClick }) {
   return (
     <>
-      <div className="submit">{nameOfButton}</div>
+      <div onClick={onClick} className="submit">
+        {nameOfButton}
+      </div>
     </>
   );
 }
