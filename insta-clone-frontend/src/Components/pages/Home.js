@@ -12,7 +12,7 @@ export default function Home() {
           />
         </div>
         <div className="card-content">
-          <i style={{ color: "red" }} class="material-icons">
+          <i style={{ color: "red" }} className="material-icons">
             favorite
           </i>
           <h4>titile</h4>

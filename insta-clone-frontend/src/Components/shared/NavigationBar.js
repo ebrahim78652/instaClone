@@ -23,7 +23,7 @@ export default function NavigationBar() {
         <li>
           <NavLink
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
-            to="signup"
+            to="/signup"
           >
             Sign up
           </NavLink>
@@ -31,9 +31,17 @@ export default function NavigationBar() {
         <li>
           <NavLink
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
-            to="profile"
+            to="/profile"
           >
             Profile
+          </NavLink>{" "}
+        </li>
+        <li>
+          <NavLink
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            to="/createPost"
+          >
+            Create a post
           </NavLink>{" "}
         </li>
       </ul>

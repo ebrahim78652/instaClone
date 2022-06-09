@@ -60,14 +60,14 @@ h3{
   font-weight: 100;
 }
 
-.card_my_own input{
+/* .card_my_own input{
   width: 80%;
   margin: 1rem;
   height: 3rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.514);
   outline: none;
   font-size: 1.5rem;
-}
+} */
 .submit{
   background-color: rgba(48, 155, 243, 0.863);
   width: 20%;
@@ -142,3 +142,8 @@ h3{
   font-size: 2rem;
 }
 
+/*||create post  */
+.file-field {
+  position: relative;
+  width: 100%;
+}

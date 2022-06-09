@@ -1,5 +1,5 @@
 import React from "react";
-import SignUpCard from "../SignUpComponents/SignUpCard";
+import SignUpCard from "./SignUpCard";
 
 export default function Signup() {
   return (
