@@ -44,11 +44,11 @@ const signIn = async (req, res, next) => {
   const token = signToken({ _id: userDoc._id });
   res
     .status(200)
-    .send({ token, user: { name: userDoc._id }, message: "user signed in" });
+    .send({ token, user: { name: userDoc.name }, message: "user signed in" });
 };
 
 exports.protectedRoute = (req, res, next) => {
-  console.log("confidential data");
+  res.status(200).json("confidential data");
 };
 
 exports.signUp = signUp;

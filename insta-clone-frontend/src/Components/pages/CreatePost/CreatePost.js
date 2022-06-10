@@ -8,17 +8,18 @@ export default function CreatePost() {
         <div className="cardTitle">Create a post</div>
         <InputField type="text" placeholder="Title" />
         <InputField type="text" placeholder="Description" />
+
         <div className="file-field input-field">
           <div className="btn">
             <span>File</span>
-            <InputField type="file" placeholder="file path here" />
+            <input type="file" placeholder="file path here" />
           </div>
           <div className="file-path-wrapper">
-            <InputField
+            <input
               type="text"
               placeholder="file path"
               className="file-path validate"
-            ></InputField>
+            ></input>
           </div>
         </div>
 

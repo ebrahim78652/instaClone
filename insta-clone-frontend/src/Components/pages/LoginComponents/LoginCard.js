@@ -24,8 +24,6 @@ export default function LoginCard() {
     //add validation for password and email in the end,
     //because might need to make lots of users for testing
 
-    //now do the fetch to the server here.
-    //change the link to use the proxy
     const response = await fetch("/user/auth/signin", {
       method: "POST",
 
@@ -42,6 +40,9 @@ export default function LoginCard() {
       M.toast({ html: response.error, classes: "red lighten-2" });
     } else {
       M.toast({ html: response.message, classes: "green lighten-2" });
+      //add the token to the local storage for later usage.
+      localStorage.setItem("token", response.token);
+
       navigate("/");
     }
   };
