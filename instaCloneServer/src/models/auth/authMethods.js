@@ -4,8 +4,8 @@ const userModel = require("../User/userModel");
 //this will be a middle ware i think, which will be added on every protected route.
 exports.verifyToken = async (req, res, next) => {
   console.log("verify token method called!");
-  const token = req.headers.authorization.replace("Bearer ", "");
   try {
+    const token = req.headers.authorization.replace("Bearer ", "");
     const payload = jwt.verify(token, SECRET);
     if (payload) {
       //fetch the user
@@ -15,7 +15,11 @@ exports.verifyToken = async (req, res, next) => {
       next();
     }
   } catch (Error) {
-    res.status(401).json("Please log-in into your account again");
+    console.log("some error happened!");
+    console.log(Error.message);
+    res.status(401).json({
+      error: "Please log-in into your account again",
+    });
   }
 };
 

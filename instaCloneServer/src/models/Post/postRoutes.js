@@ -5,11 +5,12 @@ const {
   getAllPosts,
   getPostsSignedInUser,
 } = require("./postController");
+
 const { verifyToken } = require("../auth/authMethods");
 
 postRouter.route("/create-post").post(verifyToken, createPost);
 
-postRouter.route("/posts").get(getAllPosts);
+postRouter.route("/").get(getAllPosts);
 postRouter
   .route("/posts-of-signedin-user")
   .get(verifyToken, getPostsSignedInUser);

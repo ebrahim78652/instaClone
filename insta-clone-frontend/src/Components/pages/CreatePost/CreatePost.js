@@ -1,18 +1,84 @@
 import React from "react";
 import InputField from "../../shared/InputField";
 import Submit from "../../shared/Submit";
+import { useState } from "react";
+import M from "materialize-css";
+import { useNavigate } from "react-router-dom";
+
 export default function CreatePost() {
+  const [title, setTitle] = useState();
+  const [body, setBody] = useState();
+  const [imgUrl, setImgUrl] = useState();
+  const navigate = useNavigate();
+
+  const onSubmitButtonPressed = async () => {
+    console.log("submit button pressed!");
+
+    const response = await fetch("/posts/create-post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ title, body, imgUrl }),
+    })
+      .then((resp) => resp.json())
+      .then((respBody) => respBody)
+      .catch((err) => console.log(err));
+
+    if (response.error) {
+      M.toast({ html: response.error, classes: "red lighten-2" });
+    } else {
+      M.toast({ html: response.message, classes: "green lighten-2" });
+    }
+  };
+
+  const onChangeText = (e) => {
+    setTitle(e.target.value);
+  };
+  const onChangeDescription = (e) => {
+    setBody(e.target.value);
+  };
+  const onChangeFile = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      "load",
+      function () {
+        // convert image file to base64 string
+        setImgUrl(reader.result);
+      },
+      false
+    );
+
+    reader.readAsDataURL(file);
+  };
   return (
     <>
       <div className="card_my_own">
         <div className="cardTitle">Create a post</div>
-        <InputField type="text" placeholder="Title" />
-        <InputField type="text" placeholder="Description" />
+        <InputField
+          onChange={onChangeText}
+          value={title}
+          type="text"
+          placeholder="Title"
+        />
+        <InputField
+          onChange={onChangeDescription}
+          type="text"
+          placeholder="Description"
+          value={body}
+        />
 
         <div className="file-field input-field">
           <div className="btn">
             <span>File</span>
-            <input type="file" placeholder="file path here" />
+            <input
+              onChange={onChangeFile}
+              type="file"
+              placeholder="file path here"
+            />
           </div>
           <div className="file-path-wrapper">
             <input
@@ -23,7 +89,7 @@ export default function CreatePost() {
           </div>
         </div>
 
-        <Submit nameOfButton="Create Post" />
+        <Submit onClick={onSubmitButtonPressed} nameOfButton="Create Post" />
       </div>
     </>
   );
