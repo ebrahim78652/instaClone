@@ -28,10 +28,10 @@ function App() {
     <div>
       <NavigationBar />
       <Routes>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/createPost" element={<CreatePost />}></Route>
+        {!user && <Route path="/login" element={<Login />}></Route>}
+        {!user && <Route path="/signup" element={<Signup />}></Route>}
+        {user && <Route path="/profile" element={<Profile />}></Route>}
+        {user && <Route path="/createPost" element={<CreatePost />}></Route>}
         <Route
           path="/"
           element={
