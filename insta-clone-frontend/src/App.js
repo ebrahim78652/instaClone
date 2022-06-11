@@ -6,31 +6,40 @@ import Login from "./Components/pages/LoginComponents/Login";
 import Signup from "./Components/pages/SignUpComponents/Signup";
 import Profile from "./Components/pages/ProfileComponents/Profile";
 import CreatePost from "./Components/pages/CreatePost/CreatePost";
-import store from "./store/configureStore";
-import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { actions } from "./store/userSlice";
 
 function App() {
-  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(store);
-    if (localStorage.getItem("user")) {
-      navigate("/");
-    } else {
-      navigate("/login");
+    const userFromLocalStorage = localStorage.getItem("user");
+    if (userFromLocalStorage && !user) {
+      /* dispatch(actions.loginUser(JSON.parse(userFromLocalStorage))); */
+      console.log("user present in localStorage but not in local State.");
+      dispatch(actions.loginUser(JSON.parse(userFromLocalStorage)));
     }
   }, []);
 
   return (
-    <div >
+    <div>
       <NavigationBar />
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/createPost" element={<CreatePost />}></Route>
-        <Route path="/" element={<Home />}></Route>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute user={localStorage.getItem("user")}>
+              <Home />
+            </ProtectedRoute>
+          }
+        ></Route>
       </Routes>
     </div>
   );

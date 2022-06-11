@@ -45,8 +45,7 @@ export default function LoginCard() {
       M.toast({ html: response.message, classes: "green lighten-2" });
       //add the token and the user to the local storage for later usage.
       localStorage.setItem("token", response.token);
-      localStorage.setItem("user", response.user);
-      //add the user to the state.
+      localStorage.setItem("user", JSON.stringify(response.user));
       dispatch(actions.loginUser(response.user));
       navigate("/");
     }
