@@ -5,11 +5,14 @@ import Submit from "../../shared/Submit";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import M from "materialize-css";
+import { useSelector, useDispatch } from "react-redux";
+import { actions } from "../../../store/userSlice";
 
 export default function LoginCard() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onChangePassword = (e) => {
     setPassword(e.target.value);
@@ -40,9 +43,11 @@ export default function LoginCard() {
       M.toast({ html: response.error, classes: "red lighten-2" });
     } else {
       M.toast({ html: response.message, classes: "green lighten-2" });
-      //add the token to the local storage for later usage.
+      //add the token and the user to the local storage for later usage.
       localStorage.setItem("token", response.token);
-
+      localStorage.setItem("user", response.user);
+      //add the user to the state.
+      dispatch(actions.loginUser(response.user));
       navigate("/");
     }
   };
