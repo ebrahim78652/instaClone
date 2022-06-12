@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       //fetch the  posts that are stored in DB
-      const response = await fetch("/posts/posts-of-signedin-user", {
+      const response = await fetch("/posts", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
