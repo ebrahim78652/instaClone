@@ -4,6 +4,7 @@ import Submit from "../../shared/Submit";
 import { useState } from "react";
 import M from "materialize-css";
 import { useNavigate } from "react-router-dom";
+import postDetails from "../../../utils/uploadImage";
 
 export default function CreatePost() {
   const [title, setTitle] = useState();
@@ -15,7 +16,7 @@ export default function CreatePost() {
     console.log("submit button pressed!");
 
     //img url will be saved in below variable
-    const imgUrl = await postDetails();
+    const imgUrl = await postDetails(imgFile);
     const response = await fetch("/posts/create-post", {
       method: "POST",
       headers: {
@@ -43,46 +44,7 @@ export default function CreatePost() {
     setBody(e.target.value);
   };
   const onChangeFile = (e) => {
-    /*    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener(
-      "load",
-      function () {
-        // convert image file to base64 string
-        setImgUrl(reader.result);
-      },
-      false
-    );
-
-    reader.readAsDataURL(file); */
-
     setImgFile(e.target.files[0]);
-  };
-
-  const postDetails = async () => {
-    const data = new FormData();
-    data.append("file", imgFile);
-    data.append("upload_preset", "insta-clone");
-    data.append("cloud-name", "ebrahim");
-
-    const imgUrl = await fetch(
-      "https://api.cloudinary.com/v1_1/ebrahim/image/upload",
-      {
-        method: "POST",
-        body: data,
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.url);
-        return data.url;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    return imgUrl;
   };
 
   return (

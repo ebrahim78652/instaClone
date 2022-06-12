@@ -6,6 +6,7 @@ export default function ProfileDetails() {
   //here after the component mounts, Just add a fetch!
 
   const [posts, setPosts] = useState([]);
+  const [userDetails, setUserDetails] = useState({});
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -24,7 +25,23 @@ export default function ProfileDetails() {
       setPosts(response);
     };
 
+    const fetchDetails = async () => {
+      //fetch the  posts that are stored in DB
+      const response = await fetch("/user/signedInUser", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((respBody) => respBody)
+        .catch((err) => console.log(err));
+      console.log(response);
+      setUserDetails(response[0]);
+    };
+
     fetchPosts();
+    fetchDetails();
   }, []);
 
   return (
@@ -32,7 +49,7 @@ export default function ProfileDetails() {
       <div className="main_description">
         <div className="profile_image">
           <img
-            src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+            src={userDetails.imgUrl ? userDetails.imgUrl : ""}
             alt="random"
           />
         </div>

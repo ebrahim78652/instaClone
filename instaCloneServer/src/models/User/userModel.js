@@ -14,6 +14,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  imgUrl: {
+    type: String,
+    required: false,
+    default: "no picture",
+  },
 });
 
 userSchema.methods.validatePassword = async function (passwordFromUser) {

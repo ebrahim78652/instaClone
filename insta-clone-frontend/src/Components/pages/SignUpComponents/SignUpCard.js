@@ -4,12 +4,15 @@ import InputField from "../../shared/InputField";
 import Submit from "../../shared/Submit";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
+import postDetails from "../../../utils/uploadImage";
 
 export default function SignUpCard() {
   //make the inputs controlled elements
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [imgFile, setImgFile] = useState();
+
   const navigate = useNavigate();
 
   const onChangeName = (e) => {
@@ -22,8 +25,14 @@ export default function SignUpCard() {
     setPassword(e.target.value);
   };
 
+  const onChangeFile = (e) => {
+    setImgFile(e.target.files[0]);
+  };
+
   const onSubmitButtonPressed = async () => {
     console.log("submit button pressed!");
+
+    const imgUrl = await postDetails(imgFile);
 
     //add validation for password and email in the end,
     //because might need to make lots of users for testing
@@ -35,7 +44,7 @@ export default function SignUpCard() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, password, email }),
+      body: JSON.stringify({ name, password, email, imgUrl }),
     })
       .then((resp) => resp.json())
       .then((respBody) => respBody)
@@ -71,6 +80,24 @@ export default function SignUpCard() {
           type="password"
           placeholder="password"
         />
+        <div className="file-field input-field">
+          <div className="btn">
+            <span>File</span>
+            {/*add the on change on the below line*/}
+            <input
+              onChange={onChangeFile}
+              type="file"
+              placeholder="file path here"
+            />
+          </div>
+          <div className="file-path-wrapper">
+            <input
+              type="text"
+              placeholder="profile picture"
+              className="file-path validate"
+            ></input>
+          </div>
+        </div>
 
         <Submit onClick={onSubmitButtonPressed} nameOfButton="Sign Up" />
         <Link to="/login">Already have an account?</Link>

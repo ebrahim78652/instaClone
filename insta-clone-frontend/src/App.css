@@ -86,8 +86,10 @@ h3{
 }
 
 .profile_image img{
-  border-radius:50% ;
-  width: 100%;
+  object-fit: cover;
+  width: 15vw;
+  height: 15vw;
+  border-radius: 50%;
 }
 .main_description{
   gap: clamp(7rem,  20vw, 12rem);
