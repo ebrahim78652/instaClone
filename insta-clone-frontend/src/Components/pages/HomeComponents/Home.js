@@ -23,13 +23,6 @@ export default function Home() {
         .then((resp) => resp.json())
         .then((respBody) => respBody)
         .catch((err) => console.log(err));
-
-      console.log(response);
-      //convert the urls.
-      response.forEach((element) => {
-        element.imgUrl = URL.createObjectURL(element.imgUrl);
-      });
-
       console.log(response);
       setPosts(response);
     };
@@ -39,9 +32,17 @@ export default function Home() {
 
   return (
     <div className="home">
-      {posts.map((element, index) => (
-        <Post title={element.title} body={element.body} key={index}></Post>
-      ))}
+      {posts
+        .slice(0)
+        .reverse()
+        .map((element, index) => (
+          <Post
+            title={element.title}
+            body={element.body}
+            imgUrl={element.imgUrl}
+            key={index}
+          ></Post>
+        ))}
     </div>
   );
 }
