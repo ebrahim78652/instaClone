@@ -10,7 +10,6 @@ exports.verifyToken = async (req, res, next) => {
     if (payload) {
       //fetch the user
       const user = await userModel.findOne({ _id: payload._id });
-      console.log(user);
       req.user = user;
       next();
     }

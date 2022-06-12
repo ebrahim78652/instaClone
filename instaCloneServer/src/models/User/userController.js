@@ -34,18 +34,22 @@ const signIn = async (req, res, next) => {
 
   //if no user found, respond
   if (!userDoc) {
-    res.status(500).json({ error: "Sorry, no user with this email found" });
+    res.status(500).json({ error: "user credentials are false" });
   }
 
   //check if the password is valid
-  await userDoc.validatePassword(req.body.password);
+  const isValidPassword = await userDoc.validatePassword(req.body.password);
 
-  //sign the token and send it to the user.
-  const token = signToken({ _id: userDoc._id });
-  res
-    .status(200)
-    .send({ token, user: { name: userDoc.name }, message: "user signed in" });
+  if (isValidPassword) {
+    const token = signToken({ _id: userDoc._id });
+    res
+      .status(200)
+      .send({ token, user: { name: userDoc.name }, message: "user signed in" });
+  } else {
+    res.status(500).json({ error: "user credentials are false" });
+  }
 };
+//sign the token and send it to the user.
 
 exports.protectedRoute = (req, res, next) => {
   res.status(200).json("confidential data");

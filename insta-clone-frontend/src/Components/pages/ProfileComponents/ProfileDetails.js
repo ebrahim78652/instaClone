@@ -1,10 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ProfileDetails() {
   //here after the component mounts, Just add a fetch!
 
   const [posts, setPosts] = useState([]);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -36,7 +38,7 @@ export default function ProfileDetails() {
         </div>
 
         <div className="user_description">
-          <div className="name">Test name</div>
+          <div className="name">{user.name}</div>
           <div className="user_stats">
             <div className="posts">40 posts</div>
             <div className="followers">40 followers</div>

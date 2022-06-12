@@ -127,6 +127,7 @@ h3{
   grid-template-columns: repeat(3, 1fr);
   margin: 0 auto;
   justify-items: center;
+  align-items: center;
 }
 
 .picture_grid .grid_item img{

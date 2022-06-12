@@ -9,13 +9,13 @@ export default function CreatePost() {
   const [title, setTitle] = useState();
   const [body, setBody] = useState();
   const [imgFile, setImgFile] = useState();
-  const [imgUrl, setImgUrl] = useState();
   const navigate = useNavigate();
 
   const onSubmitButtonPressed = async () => {
     console.log("submit button pressed!");
-    await postDetails();
 
+    //img url will be saved in below variable
+    const imgUrl = await postDetails();
     const response = await fetch("/posts/create-post", {
       method: "POST",
       headers: {
@@ -66,18 +66,23 @@ export default function CreatePost() {
     data.append("upload_preset", "insta-clone");
     data.append("cloud-name", "ebrahim");
 
-    fetch("https://api.cloudinary.com/v1_1/ebrahim/image/upload", {
-      method: "POST",
-      body: data,
-    })
+    const imgUrl = await fetch(
+      "https://api.cloudinary.com/v1_1/ebrahim/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data.url);
-        setImgUrl(data.url);
+        return data.url;
       })
       .catch((err) => {
         console.log(err);
       });
+
+    return imgUrl;
   };
 
   return (
