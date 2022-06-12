@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Post() {
+export default function Post({ title, body, imgUrl }) {
   return (
     <div className="card home-card">
       <h5>remarsh</h5>
@@ -14,8 +14,8 @@ export default function Post() {
         <i style={{ color: "red" }} className="material-icons">
           favorite
         </i>
-        <h4>titile</h4>
-        <p>this is amazing </p>
+        <h4>{title}</h4>
+        <p>{body}</p>
         <input type="text" placeholder="add a comment" />
       </div>
     </div>

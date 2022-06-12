@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 export default function CreatePost() {
   const [title, setTitle] = useState();
   const [body, setBody] = useState();
+  const [imgFile, setImgFile] = useState();
   const [imgUrl, setImgUrl] = useState();
   const navigate = useNavigate();
 
   const onSubmitButtonPressed = async () => {
     console.log("submit button pressed!");
+    await postDetails();
 
     const response = await fetch("/posts/create-post", {
       method: "POST",
@@ -30,6 +32,7 @@ export default function CreatePost() {
       M.toast({ html: response.error, classes: "red lighten-2" });
     } else {
       M.toast({ html: response.message, classes: "green lighten-2" });
+      //also clear all the fields after the post has been created!
     }
   };
 
@@ -40,7 +43,7 @@ export default function CreatePost() {
     setBody(e.target.value);
   };
   const onChangeFile = (e) => {
-    const file = e.target.files[0];
+    /*    const file = e.target.files[0];
     const reader = new FileReader();
 
     reader.addEventListener(
@@ -52,8 +55,31 @@ export default function CreatePost() {
       false
     );
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); */
+
+    setImgFile(e.target.files[0]);
   };
+
+  const postDetails = async () => {
+    const data = new FormData();
+    data.append("file", imgFile);
+    data.append("upload_preset", "insta-clone");
+    data.append("cloud-name", "ebrahim");
+
+    fetch("https://api.cloudinary.com/v1_1/ebrahim/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.url);
+        setImgUrl(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div className="card_my_own">

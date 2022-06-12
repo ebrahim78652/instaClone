@@ -2,6 +2,10 @@ const postModel = require("./postModel");
 
 exports.createPost = async (req, res, next) => {
   const { title, body, imgUrl } = req.body;
+  if (!title || !body || !imgUrl) {
+    res.status(422).json({ error: "Please enter all fields" });
+  }
+  console.log(req.body);
   const user = req.user;
   console.log(user);
   const newPost = new postModel({ title, body, imgUrl, postedBy: user._id });
