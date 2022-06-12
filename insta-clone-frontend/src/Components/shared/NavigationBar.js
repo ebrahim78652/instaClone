@@ -10,6 +10,13 @@ export default function NavigationBar() {
   };
 
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  //on logout clicked:
+  const onLogOutClicked = () => {
+    localStorage.clear();
+    dispatch(actions.logoutUser());
+  };
 
   return (
     <div className="nav-bar">
@@ -57,6 +64,13 @@ export default function NavigationBar() {
             >
               Create a post
             </NavLink>{" "}
+          </li>
+        )}
+        {user && (
+          <li>
+            <div onClick={onLogOutClicked} className="btn  #f44336 red">
+              Log Out
+            </div>
           </li>
         )}
       </ul>

@@ -8,6 +8,10 @@ const userSlice = createSlice({
       console.log(`reducer called. The payload is: ${action.payload}`);
       state.user = action.payload;
     },
+    logoutUser(state) {
+      console.log("reducer called: user is being logged out");
+      state.user = null;
+    },
   },
 });
 
