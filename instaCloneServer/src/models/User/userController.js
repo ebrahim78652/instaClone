@@ -78,7 +78,8 @@ const userSuggestions = async (req, res, next) => {
   const regExp = new RegExp(`^${startingLetters}`, "i");
   const user = await userModel
     .find({ $and: [{ name: regExp }, { name: { $nin: `${req.user.name}` } }] })
-    .select("-password -_id -email -imgUrl -__v");
+    .select("-password -_id -email -imgUrl -__v")
+    .limit(5);
 
   console.log(`user object which will be sent: ${user}`);
   if (user) {
