@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import M from "materialize-css";
 
 export default function AutoComplete() {
+  //the below instance object is useful and needed to control the drop down which appears.
   const [instance, setInstance] = useState(null);
 
   useEffect(() => {

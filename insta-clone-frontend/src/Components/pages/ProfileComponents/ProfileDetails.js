@@ -50,7 +50,7 @@ export default function ProfileDetails() {
         <div className="profile_image">
           <img
             src={userDetails.imgUrl ? userDetails.imgUrl : ""}
-            alt="random"
+            alt="profile picture"
           />
         </div>
 

@@ -4,10 +4,12 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../../store/userSlice";
 import AutoComplete from "./AutoComplete";
-import M from "materialize-css";
 import { useState, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function NavigationBar() {
+  const navigate = useNavigate();
+
   console.log("navigation bar loading");
   let activeStyle = {
     textDecoration: "underline",
@@ -20,6 +22,7 @@ export default function NavigationBar() {
   const onLogOutClicked = () => {
     localStorage.clear();
     dispatch(actions.logoutUser());
+    navigate("/login");
   };
 
   return (
