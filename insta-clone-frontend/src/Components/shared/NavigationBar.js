@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../../store/userSlice";
+import AutoComplete from "./AutoComplete";
+import M from "materialize-css";
+import { useState, useEffect } from "react";
 
 export default function NavigationBar() {
+  console.log("navigation bar loading");
   let activeStyle = {
     textDecoration: "underline",
   };
@@ -23,6 +27,9 @@ export default function NavigationBar() {
       <Link to="/" className="logo">
         Instagram
       </Link>
+
+      <AutoComplete />
+
       <ul>
         {!user && (
           <li>

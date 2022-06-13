@@ -33,6 +33,12 @@ a:-webkit-any-link{
   src: url(../assets/fonts/GrandHotel-Regular.ttf);
 }
 
+.row {
+  margin-left: auto;
+  margin-right: auto;
+   margin-bottom: 0px;
+}
+
 .logo, .cardTitle{
   font-family: "insta-font";
   font-size: 4rem;

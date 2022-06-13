@@ -5,13 +5,19 @@ const {
   signIn,
   protectedRoute,
   userDetailsAndProfilePicture,
+  userSuggestions,
 } = require("./userController");
 const { verifyToken } = require("../auth/authMethods");
 
 //make the sign up route.
 userRouter.post("/auth/new-User", signUp);
 userRouter.post("/auth/signin", signIn);
-userRouter.get("/signedInUser", verifyToken, userDetailsAndProfilePicture);
 userRouter.post("/auth/pr", verifyToken, protectedRoute);
+userRouter.get("/", verifyToken, userDetailsAndProfilePicture);
+userRouter.get(
+  "/usersuggestions/:startingletter",
+  verifyToken,
+  userSuggestions
+);
 
 module.exports = userRouter;

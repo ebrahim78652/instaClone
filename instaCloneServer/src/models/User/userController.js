@@ -70,10 +70,29 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
   }
 };
 
+//get user suggestions
+const userSuggestions = async (req, res, next) => {
+  console.log("user suggestion method called");
+  const startingLetters = req.params.startingletter;
+  //in the user database, search for user with id of the signed in user.
+  const regExp = new RegExp(`^${startingLetters}`, "i");
+  const user = await userModel
+    .find({ $and: [{ name: regExp }, { name: { $nin: `${req.user.name}` } }] })
+    .select("-password -_id -email -imgUrl -__v");
+
+  console.log(`user object which will be sent: ${user}`);
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(500).json({ error: "please sign in again" });
+  }
+};
+
 exports.protectedRoute = (req, res, next) => {
   res.status(200).json("confidential data");
 };
 
 exports.signUp = signUp;
 exports.signIn = signIn;
+exports.userSuggestions = userSuggestions;
 exports.userDetailsAndProfilePicture = userDetailsAndProfilePicture;
