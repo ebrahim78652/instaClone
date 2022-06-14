@@ -86,6 +86,21 @@ h3{
 
 /*||Profile  */
 
+.follow {
+  background-color: #386fe4;
+  width: 50%;
+  border-radius: 5px;
+  height: 4vh;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+.follow:hover{
+  transform: scale(1.01);
+}
+
 .profile_image, .grid_item{
   width: 15vw;
   margin-top: 3rem;

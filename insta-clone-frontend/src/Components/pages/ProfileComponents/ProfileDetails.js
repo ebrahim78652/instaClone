@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import FollowButton from "./FollowButton";
 
-export default function ProfileDetails({ user }) {
+export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
   //here after the component mounts, Just add a fetch!
 
   const [posts, setPosts] = useState([]);
@@ -63,6 +64,7 @@ export default function ProfileDetails({ user }) {
             <div className="followers">40 followers</div>
             <div className="following">40 following</div>
           </div>
+          {!isProfileOfSignedInUser && <FollowButton />}
         </div>
       </div>
       <div className="divider"></div>

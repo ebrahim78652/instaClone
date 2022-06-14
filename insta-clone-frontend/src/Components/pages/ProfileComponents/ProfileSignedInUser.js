@@ -10,7 +10,7 @@ export default function ProfileSignedInUser() {
 
   return (
     <div>
-      <ProfileDetails user={user.name} dispatch={dispatch} />
+      <ProfileDetails user={user.name} isProfileOfSignedInUser={true} />
     </div>
   );
 }
