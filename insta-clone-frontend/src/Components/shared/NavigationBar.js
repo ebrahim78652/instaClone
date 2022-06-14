@@ -15,7 +15,7 @@ export default function NavigationBar() {
     textDecoration: "underline",
   };
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.userReducers.user);
   const dispatch = useDispatch();
 
   //on logout clicked:
@@ -31,7 +31,7 @@ export default function NavigationBar() {
         Instagram
       </Link>
 
-      <AutoComplete />
+      {user && <AutoComplete />}
 
       <ul>
         {!user && (

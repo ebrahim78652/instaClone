@@ -3,24 +3,34 @@ import { useState, useEffect } from "react";
 import M from "materialize-css";
 
 export default function AutoComplete() {
-  //the below instance object is useful and needed to control the drop down which appears.
+  //the below "instance" object is useful and needed to control the drop down which appears.
   const [instance, setInstance] = useState(null);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     console.log("Auto complete component loading!");
     const elems = document.querySelector(".autocomplete");
     M.Autocomplete.init(elems, {
       data: null,
+      onAutocomplete: onAutocomplete,
     });
+
     setInstance(M.Autocomplete.getInstance(elems));
   }, []);
+
+  const onAutocomplete = (arg) => {
+    console.log(arg);
+  };
 
   const onAutoCompleteChange = async (e) => {
     console.log("value changed");
     //img url will be saved in below variable
+    setUsername(e.target.value);
     if (!e.target.value) {
+      console.log("quit");
       return;
     }
+
     const response = await fetch(`/user/usersuggestions/${e.target.value}`, {
       method: "GET",
       headers: {
@@ -41,17 +51,34 @@ export default function AutoComplete() {
     instance.open();
   };
 
+  const onSearchButtonClicked = () => {
+    console.log("search button clicked");
+  };
+
+  const onEnterPressed = (e) => {
+    if (e.key === "Enter") {
+      console.log("enter pressed");
+    }
+  };
+
   return (
     <div className="row">
       <div className="col s12">
         <div className="row">
           <div className="input-field col s12">
-            <i className="material-icons prefix">search</i>
+            <i
+              onClick={onSearchButtonClicked}
+              className="material-icons prefix"
+            >
+              search
+            </i>
             <input
               type="text"
               id="autocomplete-input"
               className="autocomplete"
               onChange={onAutoCompleteChange}
+              onKeyDown={onEnterPressed}
+              value={username}
             ></input>
             <label htmlFor="autocomplete-input">Search for a user</label>
           </div>

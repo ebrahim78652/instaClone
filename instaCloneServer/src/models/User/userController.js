@@ -57,10 +57,25 @@ const signIn = async (req, res, next) => {
   }
 };
 
-//get stats of the signed in user.
+//get stats of the signed in user or the stats of the user whose profile we want to see.
+//profile of other users can be returned if: url param passed.
 const userDetailsAndProfilePicture = async (req, res, next) => {
-  console.log("iser details method called");
+  console.log("user details method called");
   //in the user database, search for user with id of the signed in user.
+  const userIdParam = req.params.userId;
+  if (userIdParam) {
+    const user = await userModel
+      .find({ name: userIdParam })
+      .select("-password");
+    console.log(`user object which will be sent: ${user}`);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(500).json({ error: "please sign in again" });
+    }
+  }
+
+  //else we will return the signed in user
   const user = await userModel.find({ _id: req.user._id }).select("-password");
   console.log(`user object which will be sent: ${user}`);
   if (user) {

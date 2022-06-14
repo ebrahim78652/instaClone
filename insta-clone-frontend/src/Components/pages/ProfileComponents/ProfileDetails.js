@@ -7,7 +7,7 @@ export default function ProfileDetails() {
 
   const [posts, setPosts] = useState([]);
   const [userDetails, setUserDetails] = useState({});
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.userReducers.user);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,7 +27,8 @@ export default function ProfileDetails() {
 
     const fetchDetails = async () => {
       //fetch the  posts that are stored in DB
-      const response = await fetch("/user/signedInUser", {
+      const userId = "";
+      const response = await fetch(`/user/userdetails/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
