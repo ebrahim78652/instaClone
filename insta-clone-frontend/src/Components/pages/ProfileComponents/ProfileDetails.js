@@ -7,6 +7,7 @@ export default function ProfileDetails({ user }) {
 
   const [posts, setPosts] = useState([]);
   const [userDetails, setUserDetails] = useState({});
+  const [numPosts, setNumPosts] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -37,7 +38,8 @@ export default function ProfileDetails({ user }) {
         .then((respBody) => respBody)
         .catch((err) => console.log(err));
       console.log(response);
-      setUserDetails(response[0]);
+      setUserDetails(response.user[0]);
+      setNumPosts(response.numPosts);
     };
 
     fetchPosts();
@@ -57,7 +59,7 @@ export default function ProfileDetails({ user }) {
         <div className="user_description">
           <div className="name">{userDetails.name}</div>
           <div className="user_stats">
-            <div className="posts">40 posts</div>
+            <div className="posts">{numPosts} Posts</div>
             <div className="followers">40 followers</div>
             <div className="following">40 following</div>
           </div>

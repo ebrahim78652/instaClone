@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { next } = require("cli");
 const userModel = require("./userModel");
+const postModel = require("../Post/postModel");
 const signToken = require("../auth/authMethods").signToken;
 
 const saltRounds = 10;
@@ -66,8 +67,16 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
 
   const user = await userModel.find({ name: name }).select("-password");
   console.log(`user object which will be sent: ${user}`);
+
+  const userId = user[0]._id;
+  console.log("******************************");
+  console.log("The user Id is: " + userId);
+  console.log("******************************");
+  //search for the number of posts from this user;
+  const numPosts = await postModel.find({ postedBy: userId }).count();
+
   if (user) {
-    res.status(200).json(user);
+    res.status(200).json({ user, numPosts });
   } else {
     res.status(500).json({ error: "please sign in again" });
   }
