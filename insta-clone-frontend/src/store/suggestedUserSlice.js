@@ -19,5 +19,4 @@ console.log(suggestedUserSlice.actions);
 console.log(suggestedUserSlice.reducer);
 
 export const suggestedUserActions = suggestedUserSlice.actions;
-//
 export const suggestedUserReducers = suggestedUserSlice.reducer;

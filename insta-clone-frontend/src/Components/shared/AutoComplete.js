@@ -1,11 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import M from "materialize-css";
+import { suggestedUserActions } from "../../store/suggestedUserSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function AutoComplete() {
   //the below "instance" object is useful and needed to control the drop down which appears.
   const [instance, setInstance] = useState(null);
   const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Auto complete component loading!");
@@ -18,8 +23,11 @@ export default function AutoComplete() {
     setInstance(M.Autocomplete.getInstance(elems));
   }, []);
 
+  //when the user has selected a profile: change in state
   const onAutocomplete = (arg) => {
     console.log(arg);
+    dispatch(suggestedUserActions.userSearched({ name: arg }));
+    navigate("/profileSearchedUser");
   };
 
   const onAutoCompleteChange = async (e) => {

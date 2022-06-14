@@ -13,11 +13,7 @@ const { verifyToken } = require("../auth/authMethods");
 userRouter.post("/auth/new-User", signUp);
 userRouter.post("/auth/signin", signIn);
 userRouter.post("/auth/pr", verifyToken, protectedRoute);
-userRouter.get(
-  "/userdetails/:userId",
-  verifyToken,
-  userDetailsAndProfilePicture
-);
+userRouter.get("/userdetails/:name", verifyToken, userDetailsAndProfilePicture);
 userRouter.get(
   "/usersuggestions/:startingletter",
   verifyToken,

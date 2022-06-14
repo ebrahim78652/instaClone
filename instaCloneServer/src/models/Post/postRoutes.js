@@ -1,10 +1,6 @@
 const express = require("express");
 const postRouter = express.Router();
-const {
-  createPost,
-  getAllPosts,
-  getPostsSignedInUser,
-} = require("./postController");
+const { createPost, getAllPosts, postsUser } = require("./postController");
 
 const { verifyToken } = require("../auth/authMethods");
 
@@ -12,8 +8,6 @@ postRouter.route("/create-post").post(verifyToken, createPost);
 
 postRouter.route("/").get(getAllPosts);
 
-postRouter
-  .route("/posts-of-signedin-user")
-  .get(verifyToken, getPostsSignedInUser);
+postRouter.route("/posts-of-user/:name").get(verifyToken, postsUser);
 
 module.exports = postRouter;

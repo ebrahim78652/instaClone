@@ -10,6 +10,8 @@ import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "./store/userSlice";
+import ProfileSearchedUser from "./Components/pages/ProfileComponents/ProfileSearchedUser";
+import { useState } from "react";
 
 function App() {
   const user = useSelector((state) => state.userReducers.user);
@@ -18,7 +20,6 @@ function App() {
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem("user");
     if (userFromLocalStorage && !user) {
-      /* dispatch(actions.loginUser(JSON.parse(userFromLocalStorage))); */
       console.log("user present in localStorage but not in local State.");
       dispatch(actions.loginUser(JSON.parse(userFromLocalStorage)));
     }
@@ -32,6 +33,12 @@ function App() {
         {!user && <Route path="/signup" element={<Signup />}></Route>}
         {user && (
           <Route path="/profile" element={<ProfileSignedInUser />}></Route>
+        )}
+        {user && (
+          <Route
+            path="/profileSearchedUser"
+            element={<ProfileSearchedUser />}
+          ></Route>
         )}
         {user && <Route path="/createPost" element={<CreatePost />}></Route>}
         <Route

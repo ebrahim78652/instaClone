@@ -2,17 +2,17 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function ProfileDetails() {
+export default function ProfileDetails({ user }) {
   //here after the component mounts, Just add a fetch!
 
   const [posts, setPosts] = useState([]);
   const [userDetails, setUserDetails] = useState({});
-  const user = useSelector((state) => state.userReducers.user);
 
   useEffect(() => {
     const fetchPosts = async () => {
       //fetch the  posts that are stored in DB
-      const response = await fetch("/posts/posts-of-signedin-user", {
+
+      const response = await fetch(`/posts/posts-of-user/${user}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -27,8 +27,7 @@ export default function ProfileDetails() {
 
     const fetchDetails = async () => {
       //fetch the  posts that are stored in DB
-      const userId = "";
-      const response = await fetch(`/user/userdetails/${userId}`, {
+      const response = await fetch(`/user/userdetails/${user}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,12 +50,12 @@ export default function ProfileDetails() {
         <div className="profile_image">
           <img
             src={userDetails.imgUrl ? userDetails.imgUrl : ""}
-            alt="profile picture"
+            alt="profile pic"
           />
         </div>
 
         <div className="user_description">
-          <div className="name">{user.name}</div>
+          <div className="name">{userDetails.name}</div>
           <div className="user_stats">
             <div className="posts">40 posts</div>
             <div className="followers">40 followers</div>
