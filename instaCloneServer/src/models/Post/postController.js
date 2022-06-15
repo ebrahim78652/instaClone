@@ -39,14 +39,10 @@ exports.postsUser = async (req, res, next) => {
   console.log(req.user);
   try {
     const user = await userModel.find({ name: req.params.name });
-    console.log("*******************************");
-    console.log(user);
+
     const userId = user[0]._id;
-    console.log("*******************************");
-    console.log(userId);
+
     const posts = await postModel.find({ postedBy: userId });
-    console.log("*******************************");
-    console.log(posts);
 
     res.status(200).json(posts);
   } catch (err) {

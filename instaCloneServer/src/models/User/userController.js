@@ -66,12 +66,9 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
   const name = req.params.name;
 
   const user = await userModel.find({ name: name }).select("-password");
-  console.log(`user object which will be sent: ${user}`);
 
   const userId = user[0]._id;
-  console.log("******************************");
-  console.log("The user Id is: " + userId);
-  console.log("******************************");
+
   //search for the number of posts from this user;
   const numPosts = await postModel.find({ postedBy: userId }).count();
   let numFollowers;
@@ -86,18 +83,44 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
       { $match: { _id: userId } },
       { $project: { numFollowing: { $size: "$following" } } },
     ]);
-    console.log(`THE NUMBER OF FOLLOWING ARE: ${JSON.stringify(numFollowing)}`);
   } catch (err) {
     console.log(err);
   }
 
-  if (user) {
-    res.status(200).json({
-      user,
-      numPosts,
-      numFollowers: numFollowers[0].numFollowers,
-      numFollowing: numFollowing[0].numFollowing,
+  //if the user, whose details being fetched , is not the signed in user, then check here if the signed in user is already following the user being fetched.
+
+  let isFollowing = false;
+  let fetchingFremdUser = req.user.name !== user[0].name;
+  if (fetchingFremdUser) {
+    //now check if the id of the fremduser present in following of signed-in user.
+
+    const fremdUser = await userModel.find({
+      _id: req.user._id,
+      following: { $in: user[0]._id },
     });
+
+    //after fetching the fremdUser: if the array.size = 0, hence the signed is user is not following the fremdUser. else he is already following the fremdUser
+    if (fremdUser.length === 0) {
+      isFollowing = false;
+    } else {
+      isFollowing = true;
+    }
+  }
+
+  let objToSend = {
+    user,
+    numPosts,
+    numFollowers: numFollowers[0].numFollowers,
+    numFollowing: numFollowing[0].numFollowing,
+  };
+
+  if (fetchingFremdUser) {
+    objToSend.isFollowing = isFollowing;
+  }
+
+  console.log(user[0]);
+  if (user) {
+    res.status(200).json(objToSend);
   } else {
     res.status(500).json({ error: "please sign in again" });
   }
@@ -114,7 +137,6 @@ const userSuggestions = async (req, res, next) => {
     .select("-password -_id -email -imgUrl -__v")
     .limit(5);
 
-  console.log(`user object which will be sent: ${user}`);
   if (user) {
     res.status(200).json(user);
   } else {
@@ -147,7 +169,43 @@ const followUser = async (req, res, next) => {
     console.log(`the signed in user after udpating is: ${temp2}`);
 
     //send the response
-    res.status(200).json({ message: `following user: ${userNameToFollow}` });
+    res.status(200).json({
+      message: `following user: ${userNameToFollow}`,
+      numFollowersUpdated: temp[0].followers.length,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "error occured" });
+  }
+};
+const unfollowUser = async (req, res, next) => {
+  console.log(`the signed in user is: ${req.user}`);
+  try {
+    const userNameToUnfollow = req.params.name;
+
+    await userModel.updateOne(
+      { name: userNameToUnfollow },
+      { $pull: { followers: req.user._id } }
+    );
+    const temp = await userModel.find({ name: userNameToUnfollow });
+    console.log(temp);
+    console.log(`the fetched user after udpating is: ${temp}`);
+
+    console.log(`the _id is : ${temp._id}`);
+    // NOW remove a following to the signed in user:
+    await userModel.updateOne(
+      { _id: req.user._id },
+      { $pull: { following: temp[0]._id } }
+    );
+
+    const temp2 = await userModel.find({ _id: req.user._id });
+    console.log(`the signed in user after udpating is: ${temp2}`);
+
+    //send the response
+    res.status(200).json({
+      message: `unfollowed user: ${userNameToUnfollow}`,
+      numFollowersUpdated: temp[0].followers.length,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "error occured" });
@@ -163,3 +221,4 @@ exports.signIn = signIn;
 exports.userSuggestions = userSuggestions;
 exports.userDetailsAndProfilePicture = userDetailsAndProfilePicture;
 exports.followUser = followUser;
+exports.unfollowUser = unfollowUser;

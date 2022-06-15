@@ -7,6 +7,7 @@ const {
   userDetailsAndProfilePicture,
   userSuggestions,
   followUser,
+  unfollowUser,
 } = require("./userController");
 const { verifyToken } = require("../auth/authMethods");
 
@@ -21,5 +22,6 @@ userRouter.get(
   userSuggestions
 );
 userRouter.put("/follow/:name", verifyToken, followUser);
+userRouter.put("/unfollow/:name", verifyToken, unfollowUser);
 
 module.exports = userRouter;

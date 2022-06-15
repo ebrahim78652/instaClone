@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FollowButton from "./FollowButton";
+import UnfollowButton from "./UnfollowButton";
 
 export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
   //here after the component mounts, Just add a fetch!
@@ -11,6 +12,7 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
   const [numPosts, setNumPosts] = useState(null);
   const [numFollowers, setNumFollowers] = useState(-1);
   const [numFollowing, setNumFollowing] = useState(-1);
+  const [isFollowing, setIsFollowing] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -45,6 +47,10 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
       setNumPosts(response.numPosts);
       setNumFollowers(response.numFollowers);
       setNumFollowing(response.numFollowing);
+
+      if (response.isFollowing !== undefined) {
+        setIsFollowing(response.isFollowing);
+      }
     };
 
     fetchPosts();
@@ -68,7 +74,18 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
             <div className="followers">{numFollowers} followers</div>
             <div className="following">{numFollowing} following</div>
           </div>
-          {!isProfileOfSignedInUser && <FollowButton />}
+          {!isProfileOfSignedInUser && !isFollowing && (
+            <FollowButton
+              setIsFollowing={setIsFollowing}
+              setNumFollowers={setNumFollowers}
+            />
+          )}
+          {!isProfileOfSignedInUser && isFollowing && (
+            <UnfollowButton
+              setNumFollowers={setNumFollowers}
+              setIsFollowing={setIsFollowing}
+            />
+          )}
         </div>
       </div>
       <div className="divider"></div>

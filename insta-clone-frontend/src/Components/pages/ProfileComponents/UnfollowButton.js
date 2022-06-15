@@ -1,15 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function FollowButton({ setNumFollowers, setIsFollowing }) {
+export default function UnfollowButton({ setNumFollowers, setIsFollowing }) {
   const user = useSelector(
     (state) => state.suggestedUserReducers.suggestedUser
   );
 
   const onClick = async () => {
-    console.log("follow button clicked");
+    console.log("Unfollow button clicked");
 
-    const response = await fetch(`/user/follow/${user.name}`, {
+    const response = await fetch(`/user/unfollow/${user.name}`, {
       method: "PUT",
 
       headers: {
@@ -27,7 +27,7 @@ export default function FollowButton({ setNumFollowers, setIsFollowing }) {
 
   return (
     <button onClick={onClick} className="follow">
-      Follow
+      Unfollow
     </button>
   );
 }
