@@ -20,6 +20,18 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: "no picture",
   },
+
+  followers: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "users",
+    default: [],
+  },
+
+  following: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "users",
+    default: [],
+  },
 });
 
 userSchema.methods.validatePassword = async function (passwordFromUser) {

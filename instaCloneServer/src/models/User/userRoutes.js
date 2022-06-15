@@ -6,6 +6,7 @@ const {
   protectedRoute,
   userDetailsAndProfilePicture,
   userSuggestions,
+  followUser,
 } = require("./userController");
 const { verifyToken } = require("../auth/authMethods");
 
@@ -19,5 +20,6 @@ userRouter.get(
   verifyToken,
   userSuggestions
 );
+userRouter.put("/follow/:name", verifyToken, followUser);
 
 module.exports = userRouter;

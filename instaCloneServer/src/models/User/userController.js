@@ -110,6 +110,37 @@ const userSuggestions = async (req, res, next) => {
   }
 };
 
+//follow a user
+const followUser = async (req, res, next) => {
+  console.log(`the signed in user is: ${req.user}`);
+  try {
+    const userNameToFollow = req.params.name;
+
+    await userModel.updateOne(
+      { name: userNameToFollow },
+      { $push: { followers: req.user._id } }
+    );
+    const temp = await userModel.find({ name: userNameToFollow });
+    console.log(temp);
+    console.log(`the fetched user after udpating is: ${temp}`);
+
+    console.log(`the _id is : ${temp._id}`);
+    // NOW add a following to the signed in user:
+    await userModel.updateOne(
+      { _id: req.user._id },
+      { $push: { following: temp[0]._id } }
+    );
+
+    const temp2 = await userModel.find({ _id: req.user._id });
+    console.log(`the signed in user after udpating is: ${temp2}`);
+
+    //send the response
+    res.status(200).json({ message: `following user: ${userNameToFollow}` });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "error occured" });
+  }
+};
 exports.protectedRoute = (req, res, next) => {
   res.status(200).json("confidential data");
 };
@@ -118,3 +149,4 @@ exports.signUp = signUp;
 exports.signIn = signIn;
 exports.userSuggestions = userSuggestions;
 exports.userDetailsAndProfilePicture = userDetailsAndProfilePicture;
+exports.followUser = followUser;
