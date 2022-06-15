@@ -9,6 +9,8 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
   const [posts, setPosts] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [numPosts, setNumPosts] = useState(null);
+  const [numFollowers, setNumFollowers] = useState(-1);
+  const [numFollowing, setNumFollowing] = useState(-1);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -41,6 +43,8 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
       console.log(response);
       setUserDetails(response.user[0]);
       setNumPosts(response.numPosts);
+      setNumFollowers(response.numFollowers);
+      setNumFollowing(response.numFollowing);
     };
 
     fetchPosts();
@@ -61,8 +65,8 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
           <div className="name">{userDetails.name}</div>
           <div className="user_stats">
             <div className="posts">{numPosts} Posts</div>
-            <div className="followers">40 followers</div>
-            <div className="following">40 following</div>
+            <div className="followers">{numFollowers} followers</div>
+            <div className="following">{numFollowing} following</div>
           </div>
           {!isProfileOfSignedInUser && <FollowButton />}
         </div>

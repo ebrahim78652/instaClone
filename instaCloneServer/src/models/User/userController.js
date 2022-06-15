@@ -74,21 +74,33 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
   console.log("******************************");
   //search for the number of posts from this user;
   const numPosts = await postModel.find({ postedBy: userId }).count();
+  let numFollowers;
+  let numFollowing;
+  try {
+    numFollowers = await userModel.aggregate([
+      { $match: { _id: userId } },
+      { $project: { numFollowers: { $size: "$followers" } } },
+    ]);
+
+    numFollowing = await userModel.aggregate([
+      { $match: { _id: userId } },
+      { $project: { numFollowing: { $size: "$following" } } },
+    ]);
+    console.log(`THE NUMBER OF FOLLOWING ARE: ${JSON.stringify(numFollowing)}`);
+  } catch (err) {
+    console.log(err);
+  }
 
   if (user) {
-    res.status(200).json({ user, numPosts });
+    res.status(200).json({
+      user,
+      numPosts,
+      numFollowers: numFollowers[0].numFollowers,
+      numFollowing: numFollowing[0].numFollowing,
+    });
   } else {
     res.status(500).json({ error: "please sign in again" });
   }
-
-  /*   //else we will return the signed in user
-  const user = await userModel.find({ _id: req.user._id }).select("-password");
-  console.log(`user object which will be sent: ${user}`);
-  if (user) {
-    res.status(200).json(user);
-  } else {
-    res.status(500).json({ error: "please sign in again" });
-  } */
 };
 
 //get user suggestions
@@ -141,6 +153,7 @@ const followUser = async (req, res, next) => {
     res.status(500).json({ error: "error occured" });
   }
 };
+
 exports.protectedRoute = (req, res, next) => {
   res.status(200).json("confidential data");
 };

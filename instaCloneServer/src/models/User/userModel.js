@@ -27,11 +27,12 @@ const userSchema = new mongoose.Schema({
     default: [],
   },
 
-  following: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "users",
-    default: [],
-  },
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
 });
 
 userSchema.methods.validatePassword = async function (passwordFromUser) {
