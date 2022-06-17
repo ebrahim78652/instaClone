@@ -18,4 +18,4 @@ const postsLikedByUser = new mongoose.Schema({
 });
 
 const likesModel = mongoose.model("likes", postsLikedByUser);
-modules.export = likesModel;
+module.exports = likesModel;

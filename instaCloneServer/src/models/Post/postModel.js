@@ -18,12 +18,6 @@ const postSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "users",
   },
-
-  liked: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
 });
 
 const postModel = mongoose.model("posts", postSchema);
