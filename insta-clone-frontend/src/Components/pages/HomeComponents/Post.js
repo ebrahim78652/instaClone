@@ -6,11 +6,6 @@ export default function Post({ title, body, imgUrl, _id, isLiked }) {
 
   const onHeartClicked = async (e) => {
     console.log("heart clicked");
-    !isLiked
-      ? (e.target.style.color = "black")
-      : (e.target.style.color = "red");
-
-    //make the request on the server that the post has been liked.
 
     const response = await fetch(`/posts/like`, {
       method: "PUT",
@@ -25,15 +20,9 @@ export default function Post({ title, body, imgUrl, _id, isLiked }) {
     });
 
     const bodyOfResponse = await response.json();
-    console.log(bodyOfResponse);
-    console.log(bodyOfResponse.isLiked);
+
     setIsLiked(bodyOfResponse.isLiked);
   };
-
-  useEffect(() => {
-    console.log("use effect of post called!");
-    console.log(postIsLiked);
-  }, [postIsLiked]);
 
   return (
     <div className="card home-card">
