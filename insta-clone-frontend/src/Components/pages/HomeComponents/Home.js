@@ -19,6 +19,7 @@ export default function Home() {
       const response = await fetch("/posts", {
         method: "GET",
         headers: {
+          "Content-type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
@@ -47,7 +48,9 @@ export default function Home() {
             title={element.post.title}
             body={element.post.body}
             imgUrl={element.post.imgUrl}
-            key={index}
+            key={element.post._id}
+            isLiked={element.isLiked}
+            _id={element.post._id}
           ></Post>
         ))}
     </div>

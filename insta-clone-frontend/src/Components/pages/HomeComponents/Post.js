@@ -1,6 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 
-export default function Post({ title, body, imgUrl }) {
+export default function Post({ title, body, imgUrl, _id, isLiked }) {
+  const [postIsLiked, setIsLiked] = useState(isLiked);
+
+  const onHeartClicked = async (e) => {
+    console.log("heart clicked");
+    !isLiked
+      ? (e.target.style.color = "black")
+      : (e.target.style.color = "red");
+
+    //make the request on the server that the post has been liked.
+
+    const response = await fetch(`/posts/like`, {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+
+      body: JSON.stringify({ post: _id }),
+    });
+
+    const bodyOfResponse = await response.json();
+    console.log(bodyOfResponse);
+    console.log(bodyOfResponse.isLiked);
+    setIsLiked(bodyOfResponse.isLiked);
+  };
+
+  useEffect(() => {
+    console.log("use effect of post called!");
+    console.log(postIsLiked);
+  }, [postIsLiked]);
+
   return (
     <div className="card home-card">
       <h5>ramesh</h5>
@@ -8,7 +42,11 @@ export default function Post({ title, body, imgUrl }) {
         <img src={imgUrl} alt="" />
       </div>
       <div className="card-content">
-        <i style={{ color: "red" }} className="material-icons">
+        <i
+          onClick={onHeartClicked}
+          style={postIsLiked ? { color: "red" } : { color: "black" }}
+          className="material-icons"
+        >
           favorite
         </i>
         <h4>{title}</h4>

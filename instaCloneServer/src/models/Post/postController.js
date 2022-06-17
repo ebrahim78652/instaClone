@@ -2,6 +2,7 @@ const postModel = require("./postModel");
 const userModel = require("../User/userModel");
 const { populateLikes } = require("../Likes/LikesController");
 const likesModel = require("../Likes/LikesModel");
+const { next } = require("cli");
 
 exports.createPost = async (req, res, next) => {
   const { title, body, imgUrl } = req.body;
@@ -33,11 +34,7 @@ exports.getAllPosts = async (req, res, next) => {
       path: "post",
     });
 
-    console.log("*******************************");
-    console.log("These are the posts for the home page");
     console.log(posts);
-    console.log("*******************************");
-
     res.status(200).json(posts);
   } catch (err) {
     next(err);
@@ -59,17 +56,27 @@ exports.postsUser = async (req, res, next) => {
   }
 };
 
-/* try {
-  const posts = await likesModel.find({ user: req.user._id }).populate({
-    path: "post",
-  });
+exports.likePost = async (req, res, next) => {
+  console.log("*******************");
+  console.log(req.body);
+  const postToUpdate = req.body.post;
+  /*   const likeInstance = await likesModel.find({
+    post: postToUpdate,
+    user: req.user._id,
+  }); */
 
-  console.log("*******************************");
-  console.log("These are the posts for the home page");
-  console.log(posts);
-  console.log("*******************************");
+  const likedInstance = await likesModel
+    .findOneAndUpdate(
+      {
+        post: postToUpdate,
+        user: req.user._id,
+      },
+      [{ $set: { isLiked: { $eq: [false, "$isLiked"] } } }],
+      { new: true }
+    )
+    .populate("post");
 
-   res.status(200).json(posts);
-} catch (err) {
-  next(err);
-} */
+  console.log(likedInstance);
+
+  res.status(200).json(likedInstance);
+};
