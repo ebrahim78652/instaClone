@@ -1,6 +1,7 @@
 const postModel = require("./postModel");
 const userModel = require("../User/userModel");
 const { populateLikes } = require("../Likes/LikesController");
+const likesModel = require("../Likes/LikesModel");
 
 exports.createPost = async (req, res, next) => {
   const { title, body, imgUrl } = req.body;
@@ -28,10 +29,14 @@ exports.createPost = async (req, res, next) => {
 
 exports.getAllPosts = async (req, res, next) => {
   try {
-    const posts = await postModel.find({}).populate({
-      path: "postedBy",
-      select: "-password  -__v",
+    const posts = await likesModel.find({ user: req.user._id }).populate({
+      path: "post",
     });
+
+    console.log("*******************************");
+    console.log("These are the posts for the home page");
+    console.log(posts);
+    console.log("*******************************");
 
     res.status(200).json(posts);
   } catch (err) {
@@ -53,3 +58,18 @@ exports.postsUser = async (req, res, next) => {
     next(err);
   }
 };
+
+/* try {
+  const posts = await likesModel.find({ user: req.user._id }).populate({
+    path: "post",
+  });
+
+  console.log("*******************************");
+  console.log("These are the posts for the home page");
+  console.log(posts);
+  console.log("*******************************");
+
+   res.status(200).json(posts);
+} catch (err) {
+  next(err);
+} */

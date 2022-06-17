@@ -6,7 +6,7 @@ const { verifyToken } = require("../auth/authMethods");
 
 postRouter.route("/create-post").post(verifyToken, createPost);
 
-postRouter.route("/").get(getAllPosts);
+postRouter.route("/").get(verifyToken, getAllPosts);
 
 postRouter.route("/posts-of-user/:name").get(verifyToken, postsUser);
 

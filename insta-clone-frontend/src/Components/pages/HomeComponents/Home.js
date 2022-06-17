@@ -7,11 +7,13 @@ import { actions } from "../../../store/userSlice";
 export default function Home() {
   //here will be the logic for fetching the data.
   //after the component has mounted , we can do a fetch
-
+  console.log("HOME COMPONENT!");
   //store the posts in local state.
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    console.log("HOME USE EFFECT!");
+
     const fetchPosts = async () => {
       //fetch the  posts that are stored in DB
       const response = await fetch("/posts", {
@@ -20,9 +22,14 @@ export default function Home() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp);
+          return resp.json();
+        })
         .then((respBody) => respBody)
         .catch((err) => console.log(err));
+
+      console.log("THIS IS THE RESPONSE");
       console.log(response);
       setPosts(response);
     };
@@ -37,9 +44,9 @@ export default function Home() {
         .reverse()
         .map((element, index) => (
           <Post
-            title={element.title}
-            body={element.body}
-            imgUrl={element.imgUrl}
+            title={element.post.title}
+            body={element.post.body}
+            imgUrl={element.post.imgUrl}
             key={index}
           ></Post>
         ))}
