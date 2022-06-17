@@ -50,6 +50,7 @@ export default function Home() {
             imgUrl={element.post.imgUrl}
             key={element.post._id}
             isLiked={element.isLiked}
+            postedBy={element.post.postedBy.name}
             _id={element.post._id}
           ></Post>
         ))}

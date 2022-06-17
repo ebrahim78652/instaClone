@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 
-export default function Post({ title, body, imgUrl, _id, isLiked }) {
+export default function Post({ title, body, imgUrl, _id, isLiked, postedBy }) {
   const [postIsLiked, setIsLiked] = useState(isLiked);
   const commentInput = useRef(null);
 
@@ -26,14 +26,29 @@ export default function Post({ title, body, imgUrl, _id, isLiked }) {
     setIsLiked(bodyOfResponse.isLiked);
   };
 
-  const onSendClicked = (e) => {
+  const onSendClicked = async (e) => {
     console.log("send button clicked");
     console.log(commentInput.current.value);
+
+    const response = await fetch(`/posts/comment`, {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+
+      body: JSON.stringify({ post: _id, content: commentInput.current.value }),
+    });
+
+    const bodyOfResponse = await response.json();
+    console.log(bodyOfResponse);
   };
 
   return (
     <div className="card home-card">
-      <h5>Name of poster</h5>
+      <h5>{postedBy}</h5>
       <div className="card-image">
         <img src={imgUrl} alt="" />
       </div>

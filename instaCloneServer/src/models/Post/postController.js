@@ -2,6 +2,7 @@ const postModel = require("./postModel");
 const userModel = require("../User/userModel");
 const { populateLikes } = require("../Likes/LikesController");
 const likesModel = require("../Likes/LikesModel");
+const commentsModel = require("../Comments/CommentsModel");
 const { next } = require("cli");
 
 exports.createPost = async (req, res, next) => {
@@ -32,6 +33,7 @@ exports.getAllPosts = async (req, res, next) => {
   try {
     const posts = await likesModel.find({ user: req.user._id }).populate({
       path: "post",
+      populate: { path: "postedBy" },
     });
 
     console.log(posts);
@@ -70,4 +72,26 @@ exports.likePost = async (req, res, next) => {
     .populate("post");
 
   res.status(200).json(likedInstance);
+};
+
+exports.makeComment = async (req, res, next) => {
+  console.log("make comment called");
+  console.log(req.body);
+  const comment = req.body;
+
+  const newComment = new commentsModel({
+    writtenBy: req.user._id,
+    content: comment.content,
+  });
+
+  const result = await newComment.save();
+  console.log("**********************");
+  console.log("THIS IS THE RESULT: ");
+  console.log(result);
+  console.log("**********************");
+
+  await postModel.updateOne(
+    { _id: comment.post },
+    { $push: { comments: result._id } }
+  );
 };
