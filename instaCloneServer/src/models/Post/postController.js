@@ -57,14 +57,7 @@ exports.postsUser = async (req, res, next) => {
 };
 
 exports.likePost = async (req, res, next) => {
-  console.log("*******************");
-  console.log(req.body);
   const postToUpdate = req.body.post;
-  /*   const likeInstance = await likesModel.find({
-    post: postToUpdate,
-    user: req.user._id,
-  }); */
-
   const likedInstance = await likesModel
     .findOneAndUpdate(
       {
@@ -75,8 +68,6 @@ exports.likePost = async (req, res, next) => {
       { new: true }
     )
     .populate("post");
-
-  console.log(likedInstance);
 
   res.status(200).json(likedInstance);
 };

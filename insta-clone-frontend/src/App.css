@@ -177,7 +177,11 @@ h3{
   cursor: pointer;
 }
 
-/*POST  */
+/*||POST  */
 .material-icons{
   cursor:pointer;
+}
+
+.comment_and_send{
+  display: flex;
 }

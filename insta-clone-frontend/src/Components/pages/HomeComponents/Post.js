@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Post({ title, body, imgUrl, _id, isLiked }) {
   const [postIsLiked, setIsLiked] = useState(isLiked);
+  const commentInput = useRef(null);
 
   const onHeartClicked = async (e) => {
     console.log("heart clicked");
@@ -20,13 +21,19 @@ export default function Post({ title, body, imgUrl, _id, isLiked }) {
     });
 
     const bodyOfResponse = await response.json();
+    console.log(bodyOfResponse);
 
     setIsLiked(bodyOfResponse.isLiked);
   };
 
+  const onSendClicked = (e) => {
+    console.log("send button clicked");
+    console.log(commentInput.current.value);
+  };
+
   return (
     <div className="card home-card">
-      <h5>ramesh</h5>
+      <h5>Name of poster</h5>
       <div className="card-image">
         <img src={imgUrl} alt="" />
       </div>
@@ -40,7 +47,23 @@ export default function Post({ title, body, imgUrl, _id, isLiked }) {
         </i>
         <h4>{title}</h4>
         <p>{body}</p>
-        <input type="text" placeholder="add a comment" />
+        <div className="comment_and_send">
+          <input ref={commentInput} type="text" placeholder="add a comment" />
+          <i onClick={onSendClicked} className="material-icons">
+            send
+          </i>
+        </div>
+        <div className="comments">
+          <div className="">
+            hey Lorem ipsum, dolor sit amet consectetur adipisicing elit. Animi
+            magnam id molestias dolor voluptates ut.
+          </div>
+
+          <div className="">hey</div>
+          <div className="">hey</div>
+          <div className="">hey</div>
+          <div className="">hey</div>
+        </div>
       </div>
     </div>
   );
