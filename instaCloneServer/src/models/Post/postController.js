@@ -33,7 +33,7 @@ exports.getAllPosts = async (req, res, next) => {
   try {
     const posts = await likesModel.find({ user: req.user._id }).populate({
       path: "post",
-      populate: { path: "postedBy" },
+      populate: [{ path: "postedBy" }, { path: "comments" }],
     });
 
     console.log(posts);
