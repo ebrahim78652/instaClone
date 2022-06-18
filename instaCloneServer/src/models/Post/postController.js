@@ -75,23 +75,37 @@ exports.likePost = async (req, res, next) => {
 };
 
 exports.makeComment = async (req, res, next) => {
-  console.log("make comment called");
-  console.log(req.body);
-  const comment = req.body;
+  try {
+    console.log("make comment called");
+    console.log(req.body);
+    const comment = req.body;
 
-  const newComment = new commentsModel({
-    writtenBy: req.user._id,
-    content: comment.content,
-  });
+    const newComment = new commentsModel({
+      writtenBy: req.user._id,
+      content: comment.content,
+    });
 
-  const result = await newComment.save();
-  console.log("**********************");
-  console.log("THIS IS THE RESULT: ");
-  console.log(result);
-  console.log("**********************");
+    const result = await newComment.save();
+    console.log("**********************");
+    console.log("THIS IS THE RESULT: ");
+    console.log(result);
+    console.log("**********************");
 
-  await postModel.updateOne(
-    { _id: comment.post },
-    { $push: { comments: result._id } }
-  );
+    const newPost = await postModel
+      .findByIdAndUpdate(
+        { _id: comment.post },
+        { $push: { comments: result._id } },
+        { new: true }
+      )
+      .populate({
+        path: "postedBy",
+        path: "comments",
+      });
+
+    console.log(newPost);
+    res.status(201).json(newPost);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
 };
