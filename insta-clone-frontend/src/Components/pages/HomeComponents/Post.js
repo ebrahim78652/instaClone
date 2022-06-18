@@ -54,11 +54,12 @@ export default function Post({
     const bodyOfResponse = await response.json();
     console.log(bodyOfResponse);
     setComments(bodyOfResponse.comments);
+    commentInput.current.value = "";
   };
 
   return (
     <div className="card home-card">
-      <h5>{postedBy}</h5>
+      <div className="postedBy">{postedBy}</div>
       <div className="card-image">
         <img src={imgUrl} alt="" />
       </div>
@@ -83,7 +84,13 @@ export default function Post({
             .slice(0)
             .reverse()
             .map((comment) => (
-              <div key={comment._id}>{comment.content}</div>
+              <>
+                <div className="comment" key={comment._id}>
+                  <div className="comment_author">{comment.writtenBy.name}</div>
+                  <div className="comment_content">{comment.content}</div>
+                </div>
+                <div className="divider"></div>
+              </>
             ))}
         </div>
       </div>

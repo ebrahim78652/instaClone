@@ -139,9 +139,9 @@ h3{
 
 .divider{
   height: 2px;
-  background-color: rgba(0, 0, 0, 0.685);
-  width: 80vw;
-  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.329);
+  width: 100%;
+  margin: 1rem auto;
 }
 
 .picture_grid{
@@ -180,6 +180,26 @@ h3{
 /*||POST  */
 .material-icons{
   cursor:pointer;
+}
+
+.postedBy{
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.comment{
+  display: flex;
+  gap: 1rem;
+}
+
+.comment_author{
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.comment_content{
+  font-size: 1.4rem;
 }
 
 .comment_and_send{
