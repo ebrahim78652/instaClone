@@ -84,13 +84,15 @@ export default function Post({
             .slice(0)
             .reverse()
             .map((comment) => (
-              <>
-                <div className="comment" key={comment._id}>
-                  <div className="comment_author">{comment.writtenBy.name}</div>
-                  <div className="comment_content">{comment.content}</div>
+             
+                <div key={comment._id}>
+                  <div className="comment" >
+                    <div className="comment_author">{comment.writtenBy.name}</div>
+                    <div className="comment_content">{comment.content}</div>
+                  </div>
+                  <div className="divider"></div>
                 </div>
-                <div className="divider"></div>
-              </>
+              
             ))}
         </div>
       </div>
