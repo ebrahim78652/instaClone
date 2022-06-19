@@ -4,7 +4,7 @@ import InputField from "../../shared/InputField";
 import Submit from "../../shared/Submit";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
-import postDetails from "../../../utils/uploadImage";
+import {postDetails} from "../../../utils/uploadImage";
 
 export default function SignUpCard() {
   //make the inputs controlled elements

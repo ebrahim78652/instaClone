@@ -4,7 +4,7 @@ import Submit from "../../shared/Submit";
 import { useState } from "react";
 import M from "materialize-css";
 import { useNavigate } from "react-router-dom";
-import postDetails from "../../../utils/uploadImage";
+import {postDetails} from "../../../utils/uploadImage";
 
 export default function CreatePost() {
   const [title, setTitle] = useState();
