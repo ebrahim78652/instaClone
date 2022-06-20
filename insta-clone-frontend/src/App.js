@@ -2,8 +2,8 @@ import "./App.css";
 import NavigationBar from "./Components/shared/NavigationBar";
 import { Routes, Route } from "react-router-dom";
 import HomeWrapper from "./Components/pages/HomeComponents/HomeWrapper";
-import Login from "./Components/pages/LoginComponents/Login";
-import Signup from "./Components/pages/SignUpComponents/Signup";
+import LoginWrapper from "./Components/pages/LoginComponents/LoginWrapper";
+import SignupWrapper from "./Components/pages/SignUpComponents/SignupWrapper";
 import ProfileSignedInUser from "./Components/pages/ProfileComponents/ProfileSignedInUser";
 import CreatePost from "./Components/pages/CreatePost/CreatePost";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
@@ -31,8 +31,8 @@ function App() {
     <div>
       <NavigationBar />
       <Routes>
-        {!user && <Route path="/login" element={<Login />}></Route>}
-        {!user && <Route path="/signup" element={<Signup />}></Route>}
+        {!user && <Route path="/login" element={<LoginWrapper />}></Route>}
+        {!user && <Route path="/signup" element={<SignupWrapper />}></Route>}
         {user && (
           <Route path="/profile" element={<ProfileSignedInUser />}></Route>
         )}
