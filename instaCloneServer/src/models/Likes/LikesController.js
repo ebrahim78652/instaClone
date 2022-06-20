@@ -1,8 +1,11 @@
 const userModel = require("../User/userModel");
 const likesModel = require("./LikesModel");
 
+//Purpose of below method: keep track if a follower has liked a post
+//everytime a user makes a post, this method is called.
+//for every follower that the poster has, make an entry
+//in the "likes" schema.
 const populateLikes = async (newCreatedPost, creatorOfPost) => {
-  //now get the followers of this user.
   const resultFromDB = await userModel.find(
     { _id: creatorOfPost._id },
     { followers: 1 }

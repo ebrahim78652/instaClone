@@ -11,20 +11,22 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "./store/userSlice";
 import ProfileSearchedUser from "./Components/pages/ProfileComponents/ProfileSearchedUser";
-import { useState } from "react";
 
 function App() {
   const user = useSelector((state) => state.userReducers.user);
   const dispatch = useDispatch();
 
+  //if the react app is refreshed, and if a user already exists in the localStorage, then: update the store with the user from the localStorage.
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem("user");
     if (userFromLocalStorage && !user) {
       console.log("user present in localStorage but not in local State.");
+
       dispatch(actions.loginUser(JSON.parse(userFromLocalStorage)));
     }
   }, []);
 
+  //below: different Routes loaded depending on if a user has already logged in
   return (
     <div>
       <NavigationBar />

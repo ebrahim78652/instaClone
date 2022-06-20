@@ -58,10 +58,8 @@ const signIn = async (req, res, next) => {
   }
 };
 
-//get stats of the signed in user or the stats of the user whose profile we want to see.
-//profile of other users can be returned if: url param passed.
+//Purpose: get stats of the signed in user or the stats of the user whose profile we want to see.
 const userDetailsAndProfilePicture = async (req, res, next) => {
-  console.log("user details method called");
   //in the user database, search for user with the name  of the  user.
   const name = req.params.name;
 
@@ -90,17 +88,16 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
   //if the user, whose details being fetched , is not the signed in user, then check here if the signed in user is already following the user being fetched.
 
   let isFollowing = false;
-  let fetchingFremdUser = req.user.name !== user[0].name;
-  if (fetchingFremdUser) {
-    //now check if the id of the fremduser present in following of signed-in user.
-
-    const fremdUser = await userModel.find({
+  let isFetchingAnotherUser = req.user.name !== user[0].name;
+  if (isFetchingAnotherUser) {
+    //below checking if "another user" is being followed by the signed in user:
+    const anotherUser = await userModel.find({
       _id: req.user._id,
       following: { $in: user[0]._id },
     });
 
-    //after fetching the fremdUser: if the array.size = 0, hence the signed is user is not following the fremdUser. else he is already following the fremdUser
-    if (fremdUser.length === 0) {
+    //after fetching the "another user": if the array.size = 0, hence the signed is user is not following the "another user". else signed in user is already following the "another user"
+    if (anotherUser.length === 0) {
       isFollowing = false;
     } else {
       isFollowing = true;
@@ -114,7 +111,7 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
     numFollowing: numFollowing[0].numFollowing,
   };
 
-  if (fetchingFremdUser) {
+  if (isFetchingAnotherUser) {
     objToSend.isFollowing = isFollowing;
   }
 
@@ -128,92 +125,81 @@ const userDetailsAndProfilePicture = async (req, res, next) => {
 
 //get user suggestions
 const userSuggestions = async (req, res, next) => {
-  console.log("user suggestion method called");
-  const startingLetters = req.params.startingletter;
-  //in the user database, search for user with id of the signed in user.
-  const regExp = new RegExp(`^${startingLetters}`, "i");
-  const user = await userModel
-    .find({ $and: [{ name: regExp }, { name: { $nin: `${req.user.name}` } }] })
-    .select("-password -_id -email -imgUrl -__v")
-    .limit(5);
+  try {
+    const startingLetters = req.params.startingletter;
 
-  if (user) {
+    //in the user database, search for user with name !== name of signed in user.
+    //and with name starting with the letters that the user has typed
+    const regExp = new RegExp(`^${startingLetters}`, "i");
+    const user = await userModel
+      .find({
+        $and: [{ name: regExp }, { name: { $nin: `${req.user.name}` } }],
+      })
+      .select("-password -_id -email -imgUrl -__v")
+      .limit(5);
+
     res.status(200).json(user);
-  } else {
-    res.status(500).json({ error: "please sign in again" });
+  } catch (err) {
+    next(err);
   }
 };
 
-//follow a user
 const followUser = async (req, res, next) => {
-  console.log(`the signed in user is: ${req.user}`);
   try {
     const userNameToFollow = req.params.name;
 
-    await userModel.updateOne(
+    //add a "follower" to the user being followed
+    const updatedUser = await userModel.findOneAndUpdate(
       { name: userNameToFollow },
-      { $push: { followers: req.user._id } }
+      { $push: { followers: req.user._id } },
+      { new: true }
     );
-    const temp = await userModel.find({ name: userNameToFollow });
-    console.log(temp);
-    console.log(`the fetched user after udpating is: ${temp}`);
 
-    console.log(`the _id is : ${temp._id}`);
-    // NOW add a following to the signed in user:
+    // NOW add a "following" to the signed in user:
     await userModel.updateOne(
       { _id: req.user._id },
-      { $push: { following: temp[0]._id } }
+      { $push: { following: updatedUser._id } }
     );
-
-    const temp2 = await userModel.find({ _id: req.user._id });
-    console.log(`the signed in user after udpating is: ${temp2}`);
 
     //send the response
     res.status(200).json({
       message: `following user: ${userNameToFollow}`,
-      numFollowersUpdated: temp[0].followers.length,
+      numFollowersUpdated: updatedUser.followers.length,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "error occured" });
   }
 };
+
 const unfollowUser = async (req, res, next) => {
   console.log(`the signed in user is: ${req.user}`);
   try {
     const userNameToUnfollow = req.params.name;
 
-    await userModel.updateOne(
+    //remoe "follower" of user being unfollowed
+    const updatedUser = await userModel.findOneAndUpdate(
       { name: userNameToUnfollow },
-      { $pull: { followers: req.user._id } }
+      { $pull: { followers: req.user._id } },
+      { new: true }
     );
-    const temp = await userModel.find({ name: userNameToUnfollow });
-    console.log(temp);
-    console.log(`the fetched user after udpating is: ${temp}`);
 
-    console.log(`the _id is : ${temp._id}`);
-    // NOW remove a following to the signed in user:
+    console.log(`the _id is : ${updatedUser._id}`);
+    // NOW remove "following" of the signed in user:
     await userModel.updateOne(
       { _id: req.user._id },
-      { $pull: { following: temp[0]._id } }
+      { $pull: { following: updatedUser._id } }
     );
-
-    const temp2 = await userModel.find({ _id: req.user._id });
-    console.log(`the signed in user after udpating is: ${temp2}`);
 
     //send the response
     res.status(200).json({
       message: `unfollowed user: ${userNameToUnfollow}`,
-      numFollowersUpdated: temp[0].followers.length,
+      numFollowersUpdated: updatedUser.followers.length,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "error occured" });
   }
-};
-
-exports.protectedRoute = (req, res, next) => {
-  res.status(200).json("confidential data");
 };
 
 exports.signUp = signUp;

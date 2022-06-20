@@ -11,16 +11,21 @@ const {
 } = require("./userController");
 const { verifyToken } = require("../auth/authMethods");
 
-//make the sign up route.
+// sign up route.
 userRouter.post("/auth/new-User", signUp);
 userRouter.post("/auth/signin", signIn);
-userRouter.post("/auth/pr", verifyToken, protectedRoute);
+
+//purpose of below route: used when trying to see a users profile.
+// or when signed in user trying to see his own profile.
 userRouter.get("/userdetails/:name", verifyToken, userDetailsAndProfilePicture);
+
+//Purpose of below route: used when user typing username in search bar, and wants suggestions.
 userRouter.get(
   "/usersuggestions/:startingletter",
   verifyToken,
   userSuggestions
 );
+
 userRouter.put("/follow/:name", verifyToken, followUser);
 userRouter.put("/unfollow/:name", verifyToken, unfollowUser);
 

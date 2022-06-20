@@ -25,11 +25,19 @@ mongoose.connection.on("error", () => {
   console.log(mongoose.connection.readyState);
 });
 
-//set up the routes
+//set up the routes for the API
 app.use("/api", apiRouter);
+
+//server will listen to any request on the given port.
 app.listen(config.PORT, () => {
   console.log(
     "\x1b[36m%s\x1b[0m",
     `listening for requests on port number: ${config.PORT}`
   );
+});
+
+//a global error handler for the server
+app.use((err, req, res, next) => {
+  res.status(500);
+  res.render("error", { error: err });
 });

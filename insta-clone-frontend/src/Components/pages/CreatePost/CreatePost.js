@@ -17,7 +17,7 @@ export default function CreatePost() {
 
     //img url will be saved in below variable
     const imgUrl = await postDetails(imgFile);
-    const response = await fetch("/posts/create-post", {
+    const response = await fetch("/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

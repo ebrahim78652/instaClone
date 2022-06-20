@@ -1,14 +1,15 @@
 const { SECRET } = require("../../config");
 const jwt = require("jsonwebtoken");
 const userModel = require("../User/userModel");
-//this will be a middle ware i think, which will be added on every protected route.
+
+//the below method is a middleware which is added on every protected route
 exports.verifyToken = async (req, res, next) => {
   console.log("verify token method called!");
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     const payload = jwt.verify(token, SECRET);
     if (payload) {
-      //fetch the user
+      //fetch the user, and add him to the "req" object
       const user = await userModel.findOne({ _id: payload._id });
       req.user = user;
       next();
@@ -22,6 +23,7 @@ exports.verifyToken = async (req, res, next) => {
   }
 };
 
+//method to sign the token
 exports.signToken = (payload) => {
   var token = jwt.sign(payload, SECRET);
   return token;

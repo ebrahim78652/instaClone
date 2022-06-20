@@ -18,7 +18,7 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
     const fetchPosts = async () => {
       //fetch the  posts that are stored in DB
 
-      const response = await fetch(`/posts/posts-of-user/${user}`, {
+      const response = await fetch(`/posts/${user}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
