@@ -1,6 +1,6 @@
 //this js file used for uploading an image to cloudinary
 
-const postDetails = async (imgFile) => {
+export const postDetails = async (imgFile) => {
   const data = new FormData();
   data.append("file", imgFile);
   data.append("upload_preset", "insta-clone");
@@ -24,5 +24,3 @@ const postDetails = async (imgFile) => {
 
   return imgUrl;
 };
-
-module.exports = postDetails;

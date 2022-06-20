@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import InputField from "../../shared/InputField";
 import Submit from "../../shared/Submit";
 import { Link } from "react-router-dom";
-import M from "materialize-css";
-import postDetails from "../../../utils/uploadImage";
-
+import { useContext } from "react";
+import { signupContext } from "../../../Contexts/SignUpContext";
 export default function SignUpCard() {
-  //make the inputs controlled elements
+  /* //make the inputs controlled elements
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -56,7 +53,18 @@ export default function SignUpCard() {
       M.toast({ html: response, classes: "green lighten-2" });
       navigate("/login");
     }
-  };
+  }; */
+
+  const {
+    name,
+    onChangeName,
+    email,
+    onChangeEmail,
+    password,
+    onChangePassword,
+    onChangeFile,
+    onSubmitButtonPressed,
+  } = useContext(signupContext);
 
   return (
     <>
