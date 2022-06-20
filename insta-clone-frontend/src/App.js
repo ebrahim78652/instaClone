@@ -1,7 +1,7 @@
 import "./App.css";
 import NavigationBar from "./Components/shared/NavigationBar";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Components/pages/HomeComponents/Home";
+import HomeWrapper from "./Components/pages/HomeComponents/HomeWrapper";
 import Login from "./Components/pages/LoginComponents/Login";
 import Signup from "./Components/pages/SignUpComponents/Signup";
 import ProfileSignedInUser from "./Components/pages/ProfileComponents/ProfileSignedInUser";
@@ -47,7 +47,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute user={localStorage.getItem("user")}>
-              <Home />
+              <HomeWrapper />
             </ProtectedRoute>
           }
         ></Route>
