@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "./store/userSlice";
 import ProfileSearchedUser from "./Components/pages/ProfileComponents/ProfileSearchedUser";
+import CreatePostWrapper from "./Components/pages/CreatePost/CreatePostWrapper";
 
 function App() {
   const user = useSelector((state) => state.userReducers.user);
@@ -42,7 +43,9 @@ function App() {
             element={<ProfileSearchedUser />}
           ></Route>
         )}
-        {user && <Route path="/createPost" element={<CreatePost />}></Route>}
+        {user && (
+          <Route path="/createPost" element={<CreatePostWrapper />}></Route>
+        )}
         <Route
           path="/"
           element={
