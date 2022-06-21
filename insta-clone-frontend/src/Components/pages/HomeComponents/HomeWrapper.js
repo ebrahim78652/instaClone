@@ -1,13 +1,16 @@
 import HomeContext from "../../../Contexts/HomeContext";
 import Home from "./Home";
 import React from "react";
+import ErrorBoundary from "../../shared/Error";
 
 export default function HomeWrapper() {
   return (
     <>
-      <HomeContext>
-        <Home />
-      </HomeContext>
+      <ErrorBoundary>
+        <HomeContext>
+          <Home />
+        </HomeContext>
+      </ErrorBoundary>
     </>
   );
 }

@@ -5,13 +5,13 @@ import HomeWrapper from "./Components/pages/HomeComponents/HomeWrapper";
 import LoginWrapper from "./Components/pages/LoginComponents/LoginWrapper";
 import SignupWrapper from "./Components/pages/SignUpComponents/SignupWrapper";
 import ProfileSignedInUser from "./Components/pages/ProfileComponents/ProfileSignedInUser";
-import CreatePost from "./Components/pages/CreatePost/CreatePost";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from "./store/userSlice";
 import ProfileSearchedUser from "./Components/pages/ProfileComponents/ProfileSearchedUser";
 import CreatePostWrapper from "./Components/pages/CreatePost/CreatePostWrapper";
+import ErrorBoundary from "./Components/shared/Error";
 
 function App() {
   const user = useSelector((state) => state.userReducers.user);
@@ -31,6 +31,7 @@ function App() {
   return (
     <div>
       <NavigationBar />
+
       <Routes>
         {!user && <Route path="/login" element={<LoginWrapper />}></Route>}
         {!user && <Route path="/signup" element={<SignupWrapper />}></Route>}

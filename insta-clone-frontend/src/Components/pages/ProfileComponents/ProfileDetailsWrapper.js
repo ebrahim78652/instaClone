@@ -1,12 +1,22 @@
 import React from "react";
 import ProfileDetails from "./ProfileDetails";
 import ProfileDetailsContext from "../../../Contexts/ProfileDetailsContext";
-export default function ProfileDetailsWrapper({user, isProfileOfSignedInUser}) {
+import ErrorBoundary from "../../shared/Error";
+
+export default function ProfileDetailsWrapper({
+  user,
+  isProfileOfSignedInUser,
+}) {
   return (
     <>
-      <ProfileDetailsContext user = {user} isProfileOfSignedInUser = {isProfileOfSignedInUser} >
-        <ProfileDetails  />
-      </ProfileDetailsContext>
+      <ErrorBoundary>
+        <ProfileDetailsContext
+          user={user}
+          isProfileOfSignedInUser={isProfileOfSignedInUser}
+        >
+          <ProfileDetails />
+        </ProfileDetailsContext>
+      </ErrorBoundary>
     </>
   );
 }
