@@ -3,10 +3,24 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FollowButton from "./FollowButton";
 import UnfollowButton from "./UnfollowButton";
+import { useContext } from "react";
+import { contextProfileDetails } from "../../../Contexts/ProfileDetailsContext";
+export default function ProfileDetails() {
+  const {
+    userDetails,
+    numPosts,
+    numFollowers,
+    numFollowing,
+    isFollowing,
+    setIsFollowing,
+    setNumFollowers,
+    posts,
+    isProfileOfSignedInUser,
+    user,
+  } = useContext(contextProfileDetails);
 
-export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
   //here after the component mounts, Just add a fetch!
-
+  /* 
   const [posts, setPosts] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [numPosts, setNumPosts] = useState(null);
@@ -56,7 +70,7 @@ export default function ProfileDetails({ user, isProfileOfSignedInUser }) {
     fetchPosts();
     fetchDetails();
   }, []);
-
+ */
   return (
     <div>
       <div className="main_description">
