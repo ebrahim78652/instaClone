@@ -19,6 +19,7 @@ export default function ContextProfileDetails({
   const [numFollowers, setNumFollowers] = useState(-1);
   const [numFollowing, setNumFollowing] = useState(-1);
   const [isFollowing, setIsFollowing] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -57,6 +58,7 @@ export default function ContextProfileDetails({
       if (response.isFollowing !== undefined) {
         setIsFollowing(response.isFollowing);
       }
+      setIsLoading(false);
     };
 
     fetchPosts();
@@ -76,6 +78,7 @@ export default function ContextProfileDetails({
         posts,
         isProfileOfSignedInUser,
         user,
+        isLoading,
       }}
     >
       {children}
