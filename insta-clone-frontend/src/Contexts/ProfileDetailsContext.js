@@ -38,7 +38,7 @@ export default function ContextProfileDetails({
     };
 
     const fetchDetails = async () => {
-      //fetch the  posts that are stored in DB
+      //fetch the details of user stored in DB
       const response = await fetch(`/user/userdetails/${user}`, {
         method: "GET",
         headers: {

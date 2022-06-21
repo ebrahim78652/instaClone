@@ -12,6 +12,7 @@ export default function HomeContext({ children }) {
   console.log("HOME COMPONENT!");
   //store the posts in local state.
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     console.log("HOME USE EFFECT!");
@@ -35,6 +36,8 @@ export default function HomeContext({ children }) {
       console.log("THIS IS THE RESPONSE");
       console.log(response);
       setPosts(response);
+      console.log("LOADINF USE EFFECT called!, to remove the laoding!");
+      setIsLoading(false);
     };
 
     fetchPosts();
@@ -44,6 +47,7 @@ export default function HomeContext({ children }) {
     <homeContext.Provider
       value={{
         posts,
+        isLoading,
       }}
     >
       {children}
