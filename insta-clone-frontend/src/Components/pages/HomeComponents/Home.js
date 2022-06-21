@@ -25,7 +25,7 @@ export default function Home() {
                 key={element.post._id}
                 isLiked={element.isLiked}
                 postedBy={element.post.postedBy.name}
-                comments={element.post}
+                comments={element.post.comments}
                 _id={element.post._id}
               ></Post>
             ))}

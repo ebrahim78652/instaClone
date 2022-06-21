@@ -230,3 +230,9 @@ h3{
     transform: rotate(360deg);
   }
 }
+
+/*Error  */
+.error{
+  display: flex;
+  justify-content: center;
+}

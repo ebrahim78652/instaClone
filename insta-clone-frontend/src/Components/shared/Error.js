@@ -20,7 +20,19 @@ export default class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       //add some image here later
-      return <h1>Something went wrong.</h1>;
+      return (
+        <>
+          <div className="error">
+            <div>
+              <h1>Something went wrong.</h1>;
+              <img
+                src="https://image.shutterstock.com/image-vector/vector-attention-sign-exclamation-mark-260nw-1716143401.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+        </>
+      );
     }
 
     return this.props.children;
